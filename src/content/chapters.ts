@@ -9,6 +9,7 @@ export const chapters = [
   { id: "adiabatic", label: "Adiabatic assist" },
   { id: "hardware", label: "The hardware ceiling" },
   { id: "crossing", label: "Where the lines cross" },
+  { id: "chiller", label: "The chiller" },
   { id: "gap", label: "The gap" },
   { id: "plant", label: "The proposed plant" },
   { id: "now", label: "Why it matters now" },

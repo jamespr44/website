@@ -8,6 +8,7 @@ import { DryRejection } from "@/components/sections/DryRejection";
 import { Adiabatic } from "@/components/sections/Adiabatic";
 import { Hardware } from "@/components/sections/Hardware";
 import { Crossing } from "@/components/sections/Crossing";
+import { Chiller } from "@/components/sections/Chiller";
 import { Gap } from "@/components/sections/Gap";
 import { Plant } from "@/components/sections/Plant";
 import { Now } from "@/components/sections/Now";
@@ -26,6 +27,7 @@ export default function Home() {
         <Adiabatic />
         <Hardware />
         <Crossing />
+        <Chiller />
         <Gap />
         <Plant />
         <Now />

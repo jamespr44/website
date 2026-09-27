@@ -1,11 +1,13 @@
 "use client";
 
 import { useId, useState } from "react";
+import dynamic from "next/dynamic";
 import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { SourceNote } from "@/components/ui/SourceNote";
-import { CoolingTower } from "@/components/viz/CoolingTower";
 import { figures } from "@/content/chapters";
+
+const CoolingTower3D = dynamic(() => import("@/components/three/CoolingTower3D"), { ssr: false });
 
 const MIN_MW = 10;
 const MAX_MW = 500;
@@ -99,8 +101,11 @@ export function Evaporation() {
           <SourceNote>ASHRAE (2020); Mytton (2021)</SourceNote>
         </div>
 
-        <div className="mx-auto w-full max-w-sm md:sticky md:top-24">
-          <CoolingTower intensity={(mw - MIN_MW) / (MAX_MW - MIN_MW)} />
+        <div className="relative mx-auto w-full md:sticky md:top-20">
+          <CoolingTower3D intensity={(mw - MIN_MW) / (MAX_MW - MIN_MW)} />
+          <p className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 text-center text-[11px] whitespace-nowrap text-faint">
+            Plume and fan speed follow the heat load<span className="hidden md:inline"> · drag to orbit</span>
+          </p>
         </div>
       </div>
     </Section>
