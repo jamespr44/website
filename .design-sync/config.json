@@ -1,0 +1,72 @@
+{
+  "projectId": "4613d5a3-0fb5-4a57-9af5-6436d947f23e",
+  "shape": "package",
+  "pkg": "warm-water-cooling",
+  "globalName": "WarmWaterCooling",
+  "buildCmd": "node .design-sync/build-lib.mjs",
+  "entry": ".ds-lib/index.js",
+  "srcDir": "../src",
+  "cssEntry": "styles.css",
+  "extraFonts": [
+    "../node_modules/@fontsource-variable/inter/index.css"
+  ],
+  "componentSrcMap": {
+    "MotionGlobalConfig": null
+  },
+  "overrides": {
+    "Section": {
+      "cardMode": "column"
+    },
+    "PlantSchematic": {
+      "cardMode": "column"
+    },
+    "CoolingTowerSchematic": {
+      "cardMode": "column"
+    },
+    "DryCoolerSchematic": {
+      "cardMode": "column"
+    },
+    "ChillerCycle": {
+      "cardMode": "column"
+    },
+    "SprayCooling": {
+      "cardMode": "column",
+      "viewport": "900x860"
+    },
+    "CrossingChart": {
+      "cardMode": "column",
+      "viewport": "900x1100"
+    },
+    "WueProfiles": {
+      "cardMode": "column"
+    },
+    "FreeCoolingWindow": {
+      "cardMode": "column"
+    },
+    "GapMatrix": {
+      "cardMode": "column"
+    },
+    "TdpTrend": {
+      "cardMode": "column"
+    },
+    "IridescentBackdrop": {
+      "cardMode": "column"
+    },
+    "Callout": {
+      "cardMode": "column"
+    },
+    "Counter": {
+      "cardMode": "column"
+    },
+    "Flow": {
+      "cardMode": "column"
+    },
+    "LiquidText": {
+      "cardMode": "column"
+    },
+    "Valve": {
+      "cardMode": "column"
+    }
+  },
+  "readmeHeader": ".design-sync/conventions.md"
+}
