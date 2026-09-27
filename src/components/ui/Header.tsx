@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import { chapters, type ChapterId } from "@/content/chapters";
 
@@ -8,9 +9,10 @@ const ease = [0.19, 1, 0.22, 1] as const;
 
 /**
  * Transparent fixed header. `mix-blend-mode: difference` keeps it legible over white, black and the hero backdrop
- * without ever changing colour. The Index pill opens a full-screen chapter list.
+ * without ever changing colour. The name links back to the portfolio home; the Index pill opens a full-screen
+ * chapter list.
  */
-export function Header() {
+export function Header({ label }: { label: string }) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<ChapterId>("intro");
   const { scrollYProgress } = useScroll();
@@ -43,10 +45,10 @@ export function Header() {
         className="fixed inset-x-0 top-0 z-50 h-px origin-left bg-white mix-blend-difference"
       />
       <header className="fixed inset-x-0 top-0 z-40 grid h-[66px] grid-cols-[1fr_auto] items-center px-4 text-white mix-blend-difference sm:px-8 md:grid-cols-3">
-        <a href="#intro" className="justify-self-start text-[15px] transition-opacity duration-300 hover:opacity-60">
+        <Link href="/" className="justify-self-start text-[15px] transition-opacity duration-300 hover:opacity-60">
           James Gianoutsos
-        </a>
-        <span className="t-label hidden justify-self-center md:block">Literature review · 2026</span>
+        </Link>
+        <span className="t-label hidden justify-self-center md:block">{label}</span>
         <button
           type="button"
           onClick={() => setOpen(true)}

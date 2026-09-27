@@ -5,7 +5,7 @@ MotionGlobalConfig.skipAnimations = true;
 
 export const Chapter = () => (
   <Section
-    id="evaporation"
+    id="water"
     kicker="Where the water goes"
     title={<>The heat leaves in the water.</>}
     lede="A cooling tower works by evaporating water. The heat goes out as the latent heat of the vapour, so water consumption is built into how the tower works."
@@ -13,7 +13,7 @@ export const Chapter = () => (
 );
 
 export const WithBody = () => (
-  <Section id="gap" kicker="The gap" title={<>Nobody has asked the question at 30 °C.</>}>
+  <Section id="options" kicker="Options appraisal" title={<>Nobody has asked the question at 30 °C.</>}>
     <div className="mt-16 md:ml-[240px]">
       <Prose>
         <p className="m-0">

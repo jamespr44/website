@@ -26,6 +26,7 @@
 - None outstanding.
 
 ## Re-sync risks
+- **Pending since the proposal rewrite:** `Section.id` now takes the proposal's chapter ids (`summary`, `water`, `options`, …), and `GapMatrix` takes optional `criteria`, `rows`, `rowHeader` and `caption` props. The `Section` preview uses the new ids. The new `ModeYear` and `WaterComparison` charts are not in `entry.ts` yet, and nothing has been re-uploaded.
 - `build-lib.mjs` relies on:
   - tsc emitting declarations for `entry.ts`, with `rootDir` set to the repo root, so types land under `.ds-lib/types/.design-sync/`;
   - a regex rewrite of `@/` imports.

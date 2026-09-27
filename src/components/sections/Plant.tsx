@@ -6,7 +6,9 @@ import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { Term } from "@/components/ui/Term";
 import { PlantSchematic } from "@/components/viz/PlantSchematic";
-import { ADIABATIC_LIMIT_C, FREE_COOLING_LIMIT_C, selectMode, type WaterState } from "@/lib/plantModes";
+import { assumptions, brief } from "@/content/design";
+import { schedule } from "@/lib/estimate";
+import { ADIABATIC_LIMIT_C, DRY_APPROACH_K, FREE_COOLING_LIMIT_C, selectMode, type WaterState } from "@/lib/plantModes";
 
 const T_MIN = 10;
 const T_MAX = 42;
@@ -35,6 +37,33 @@ const modes = [
     active: (s: ReturnType<typeof selectMode>) => s.adiabatic,
   },
 ] as const;
+
+const equipment: [string, string, string, string][] = [
+  [
+    "Adiabatic dry coolers",
+    `${schedule.dryDuty} × ${assumptions.dryCoolerUnitMW} MW`,
+    `${schedule.dryTotal} (N+1)`,
+    `Sized for ${schedule.heatRejectMW.toFixed(0)} MW: IT load plus compressor heat at the design day. Pre-cooling pads or mist, isolatable per unit.`,
+  ],
+  [
+    "High-temperature chillers",
+    `${schedule.chillerDuty} × ${assumptions.chillerUnitMW} MW`,
+    `${schedule.chillerTotal} (N+1)`,
+    "Two-stage centrifugal, magnetic bearings, leaving condenser water up to 55 °C (e.g. Carrier AquaEdge 19MV4).",
+  ],
+  [
+    "TCS heat exchangers and pumps",
+    `${brief.itLoadMW} MW`,
+    "N+1",
+    `Separates the ${brief.tcsSupplyC} °C technology cooling loop from the facility water loop.`,
+  ],
+  [
+    "Adiabatic water supply",
+    "Break tank",
+    "1",
+    "Potable make-up behind a motorised isolation valve, closed by the water-state gate.",
+  ],
+];
 
 export function Plant() {
   const [temp, setTemp] = useState(22);
@@ -72,7 +101,7 @@ export function Plant() {
 
   return (
     <Section
-      id="plant"
+      id="system"
       kicker="The proposed plant"
       title={<>Three modes. Water only when the community can spare it.</>}
       lede={
@@ -184,8 +213,8 @@ export function Plant() {
           </div>
         </div>
         <p className="t-caption mt-8 text-faint">
-          Thresholds and the summer-day profile are illustrative, chosen to show the control idea. They are not results
-          of the design study.
+          Thresholds are concept-stage assumptions ({DRY_APPROACH_K} K dry-cooler approach, adiabatic band to{" "}
+          {ADIABATIC_LIMIT_C} °C), the same ones the performance estimate uses. The summer-day profile is illustrative.
         </p>
       </div>
 
@@ -205,12 +234,46 @@ export function Plant() {
         })}
       </div>
 
+      <Reveal className="mt-24">
+        <p className="t-label m-0 border-b border-rule pb-3">Equipment schedule · indicative</p>
+        <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+          <table className="w-full min-w-[640px] border-collapse text-left">
+            <caption className="sr-only">Indicative equipment schedule</caption>
+            <thead>
+              <tr className="border-b border-line">
+                {["Item", "Duty", "Installed", "Basis"].map((h) => (
+                  <th key={h} scope="col" className="t-label py-3 pr-4 font-normal text-muted">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {equipment.map((row) => (
+                <tr key={row[0]} className="border-b border-line align-top">
+                  <th scope="row" className="py-4 pr-4 font-normal">
+                    {row[0]}
+                  </th>
+                  <td className="py-4 pr-4 tabular-nums">{row[1]}</td>
+                  <td className="py-4 pr-4 tabular-nums">{row[2]}</td>
+                  <td className="py-4 text-sm leading-[1.5] text-muted">{row[3]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="t-caption mt-5 text-faint">
+          Indicative · concept-stage sizing. Unit capacities are placeholders until equipment is selected on the design
+          day.
+        </p>
+      </Reveal>
+
       <Reveal className="mt-16">
         <Prose>
           <p>
-            The study assesses the plant hour by hour in Sydney, against a chiller-less case and an evaporative cooling
-            tower baseline, on three measures: <span className="text-ink">energy</span>,{" "}
-            <span className="text-ink">water</span> and <span className="text-ink">water-scarcity cost</span>.
+            The dry coolers are sized for the chiller’s full heat of rejection, {schedule.heatRejectMW.toFixed(0)} MW,
+            so the same coils serve free cooling in winter and condenser duty in a heatwave. Nothing on the rejection
+            side evaporates water unless the gate allows it.
           </p>
         </Prose>
       </Reveal>
