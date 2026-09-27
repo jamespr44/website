@@ -19,10 +19,11 @@ An earlier real-time 3D (three.js) version of the equipment is kept on the `shel
 Editorial monochrome on a black page: white and grey type on square corners, with 75px pills as the only rounded
 shape and no shadows. Colour appears in only two places:
 
-- the iridescent liquid (`src/lib/liquid.ts`). It fills the hero backdrop and, through `LiquidText`, the key figures.
-  One shared offscreen renderer (`src/lib/liquidRenderer.ts`) paints every figure, so the liquid reads as one sheet
-  behind the page.
-- charts and schematics, using the same three hues: sage for free cooling and water saved, amber for heat, and
+- the iridescent liquid (`src/lib/liquid.ts`), a moving temperature field on a hot-to-cold ramp: oxblood, orange,
+  amber, yellow, sage, blue. It fills the hero backdrop and, through `LiquidText`, the key figures. One shared
+  offscreen renderer (`src/lib/liquidRenderer.ts`) paints every figure, so the liquid reads as one sheet behind the
+  page. The hero renders at full display resolution and steps down only if frames run slow.
+- charts and schematics, using three of those hues: sage for free cooling and water saved, amber for heat, and
   oxblood for mechanical cooling, 55 °C water and breaches.
 
 Every colour is a CSS token in `src/app/globals.css`, and `:root` holds the black palette. Sections are separated by

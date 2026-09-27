@@ -3,7 +3,8 @@
 
 /*
  * Editorial monochrome. The interface is black, white and grey; colour lives only in the hero backdrop and in the
- * charts and 3D scenes (sage = free cooling / water saved, amber = heat, oxblood = mechanical cooling / hot).
+ * charts and schematics (sage = free cooling / water saved, amber = heat, oxblood = mechanical cooling / hot). The liquid
+ * runs the full hot-to-cold ramp, blue included (see --liquid-ramp).
  * Every colour below is a token. The site is black throughout; `.band-dark` is kept as an explicit alias so a panel can
  * force the dark palette if a light theme is ever reintroduced.
  */
@@ -258,6 +259,38 @@ body {
   animation: blade 0.55s linear infinite;
 }
 
+/* The liquid's hot-to-cold ramp, for places that can't run the shader. */
+:root {
+  --liquid-ramp: linear-gradient(100deg, #285ab0, #a0e0ab 24%, #ffd766 42%, #ffac2e 55%, #ec6628 70%, #a52d25);
+}
+
+/* Hero backdrop. The canvas covers this; without WebGL the gradients below show, drifting slowly. */
+.liquid-backdrop {
+  background:
+    radial-gradient(45% 55% at 18% 72%, #285ab0, transparent 70%),
+    radial-gradient(45% 50% at 32% 38%, #a0e0ab, transparent 70%),
+    radial-gradient(40% 50% at 55% 60%, #ffd766, transparent 70%),
+    radial-gradient(45% 55% at 68% 30%, #ffac2e, transparent 70%),
+    radial-gradient(50% 60% at 88% 70%, #ec6628, transparent 70%),
+    radial-gradient(60% 70% at 92% 8%, #a52d25, transparent 70%), #0a0605;
+  background-size: 140% 140%;
+  background-position: 50% 50%;
+}
+.liquid-drift {
+  animation: liquid-drift 28s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+@keyframes liquid-drift {
+  0% {
+    background-position: 0% 30%;
+  }
+  50% {
+    background-position: 100% 60%;
+  }
+  100% {
+    background-position: 40% 100%;
+  }
+}
+
 /* Liquid-filled numbers: the canvas sits behind real text; the ink layer knocks the liquid out through the glyphs. */
 .liquid-text {
   position: relative;
@@ -291,7 +324,7 @@ body {
 }
 .liquid-fallback .liquid-ink {
   mix-blend-mode: normal;
-  background: linear-gradient(100deg, rgb(160, 224, 171), rgb(255, 172, 46) 50%, rgb(165, 45, 37));
+  background: var(--liquid-ramp);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -337,7 +370,8 @@ input[type="range"]::-moz-range-thumb {
   .pipe-flow,
   .fan-spin,
   .badge-spin,
-  .blade-spin {
+  .blade-spin,
+  .liquid-drift {
     animation: none;
   }
   .drift-dot {

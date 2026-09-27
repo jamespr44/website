@@ -14,7 +14,7 @@ export type LiquidSubscriber = {
   still: boolean;
 };
 
-const WIDTH = 480;
+const WIDTH = 720;
 let liquid: Liquid | null | undefined;
 const visible = new Set<LiquidSubscriber>();
 let raf = 0;
