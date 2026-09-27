@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
 import { animate, motion } from "motion/react";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { figures } from "@/content/chapters";
+import { DryCoolerSchematic } from "./DryCoolerSchematic";
 
 const AMBIENT = 35;
-const DryCooler3D = dynamic(() => import("@/components/three/DryCooler3D"), { ssr: false });
 
 function useAnimatedNumber(target: number) {
   const [v, setV] = useState(target);
@@ -58,15 +57,8 @@ export function SprayCooling() {
         <p className="t-caption m-0 text-faint">Example ambient: {AMBIENT} °C, humid-hot afternoon</p>
       </div>
 
-      <div className="relative -mx-2 mt-4 md:-mx-4">
-        <DryCooler3D spray={on} />
-        <div className="t-label pointer-events-none absolute top-3 left-3 bg-bg px-3 py-2">
-          <span className="text-faint">Air entering coil</span>{" "}
-          <span className="tabular-nums">{air.toFixed(1)} °C</span>
-        </div>
-        <p className="pointer-events-none absolute right-3 bottom-3 hidden text-[11px] text-faint md:block">
-          Drag to orbit
-        </p>
+      <div className="mx-auto mt-8 max-w-[820px]">
+        <DryCoolerSchematic spray={on} ambient={AMBIENT} atCoil={air} />
       </div>
 
       <div className="mt-6 grid gap-6 sm:grid-cols-3">

@@ -2,6 +2,7 @@
 
 import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { LiquidText } from "@/components/ui/LiquidText";
 import { Counter } from "@/components/ui/Counter";
 import { Term } from "@/components/ui/Term";
 import { SourceNote } from "@/components/ui/SourceNote";
@@ -30,7 +31,9 @@ export function Timing() {
       <div className="mt-24 grid gap-12 md:grid-cols-[0.8fr_1fr] md:items-center">
         <Reveal>
           <p className="t-stat mt-6">
-            <Counter value={figures.wueSpreadPct} suffix="%" />
+            <LiquidText>
+              <Counter value={figures.wueSpreadPct} suffix="%" />
+            </LiquidText>
           </p>
           <p className="mt-7 max-w-sm text-muted">
             The relative spread in estimated WUE across ten facility archetypes and fifteen climate zones.

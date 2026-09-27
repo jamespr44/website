@@ -1,13 +1,12 @@
 "use client";
 
 import { useId, useState } from "react";
-import dynamic from "next/dynamic";
 import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { LiquidText } from "@/components/ui/LiquidText";
 import { SourceNote } from "@/components/ui/SourceNote";
 import { figures } from "@/content/chapters";
-
-const CoolingTower3D = dynamic(() => import("@/components/three/CoolingTower3D"), { ssr: false });
+import { CoolingTowerSchematic } from "@/components/viz/CoolingTowerSchematic";
 
 const MIN_MW = 10;
 const MAX_MW = 500;
@@ -41,7 +40,8 @@ export function Evaporation() {
         <div className="space-y-10">
           <Reveal>
             <p className="t-stat whitespace-nowrap">
-              1.4–1.5 <span className="text-[0.38em] font-light tracking-normal text-muted">L/kWh</span>
+              <LiquidText>1.4–1.5</LiquidText>{" "}
+              <span className="text-[0.38em] font-light tracking-normal text-muted">L/kWh</span>
             </p>
             <p className="mt-7 mb-0 max-w-[420px] text-muted">
               Water evaporated for every kilowatt-hour of heat rejected, before drift and blowdown losses are added.
@@ -94,12 +94,12 @@ export function Evaporation() {
           <SourceNote>ASHRAE (2020); Mytton (2021)</SourceNote>
         </div>
 
-        <div className="relative mx-auto w-full md:sticky md:top-20">
-          <CoolingTower3D intensity={(mw - MIN_MW) / (MAX_MW - MIN_MW)} />
-          <p className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 text-center text-[11px] whitespace-nowrap text-faint">
-            Plume and fan speed follow the heat load<span className="hidden md:inline"> · drag to orbit</span>
-          </p>
-        </div>
+        <figure className="m-0 w-full border-t border-rule pt-6 md:sticky md:top-24">
+          <CoolingTowerSchematic intensity={(mw - MIN_MW) / (MAX_MW - MIN_MW)} />
+          <figcaption className="t-caption mt-3 text-faint">
+            Induced-draft cooling tower in section. The vapour plume follows the heat load.
+          </figcaption>
+        </figure>
       </div>
     </Section>
   );

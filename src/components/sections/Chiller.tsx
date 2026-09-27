@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import dynamic from "next/dynamic";
 import { AnimatePresence, motion, useMotionValueEvent } from "motion/react";
 import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
@@ -10,8 +9,7 @@ import { SourceNote } from "@/components/ui/SourceNote";
 import { useScrub } from "@/lib/useScrub";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { figures } from "@/content/chapters";
-
-const Chiller3D = dynamic(() => import("@/components/three/Chiller3D"), { ssr: false });
+import { ChillerCycle } from "@/components/viz/ChillerCycle";
 
 const steps: { kicker: string; tone: string; title: string; body: React.ReactNode }[] = [
   {
@@ -21,7 +19,7 @@ const steps: { kicker: string; tone: string; title: string; body: React.ReactNod
     body: (
       <>
         When the dry coolers can’t hold 30 °C on their own, the chiller takes the heat out of the IT loop and lifts it
-        to a temperature the dry coolers can reject. The shells here are see-through so you can follow the refrigerant.
+        to a temperature the dry coolers can reject. Follow the refrigerant round the loop as you scroll.
       </>
     ),
   },
@@ -143,8 +141,8 @@ export function Chiller() {
               </>
             )}
           </div>
-          <div className="order-1 h-[46svh] md:order-2 md:h-[72svh]">
-            <Chiller3D step={reduced ? 0 : step} />
+          <div className="order-1 w-full md:order-2">
+            <ChillerCycle step={reduced ? 0 : step} />
           </div>
         </div>
       </div>

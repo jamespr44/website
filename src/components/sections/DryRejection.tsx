@@ -2,6 +2,7 @@
 
 import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { LiquidText } from "@/components/ui/LiquidText";
 import { Counter } from "@/components/ui/Counter";
 import { Term } from "@/components/ui/Term";
 import { SourceNote } from "@/components/ui/SourceNote";
@@ -25,7 +26,9 @@ export function DryRejection() {
         <Reveal className="border-t border-rule pt-7">
           <p className="t-label">Water</p>
           <p className="t-stat mt-6">
-            −<Counter value={figures.karimiWueDropPct} suffix="%" />
+            <LiquidText>
+              −<Counter value={figures.karimiWueDropPct} suffix="%" />
+            </LiquidText>
           </p>
           <p className="mt-7 text-muted">
             Measured <Term k="WUE" /> of a chiller-less warm-water plant compared with conventional evaporative plant.
@@ -34,7 +37,9 @@ export function DryRejection() {
         <Reveal delay={0.1} className="border-t border-rule pt-7">
           <p className="t-label">Energy</p>
           <p className="t-stat mt-6">
-            +<Counter value={figures.karimiPueRisePct} suffix="%" />
+            <LiquidText>
+              +<Counter value={figures.karimiPueRisePct} suffix="%" />
+            </LiquidText>
           </p>
           <p className="mt-7 text-muted">
             The price paid: roughly 13% higher <Term k="PUE" />.

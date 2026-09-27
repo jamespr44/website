@@ -217,6 +217,76 @@ body {
   animation: spin 16s linear infinite;
 }
 
+/* Schematic particles: each dot sets --dx, --dy, --dur and --delay inline. */
+@keyframes drift-dot {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: var(--o, 0.7);
+  }
+  100% {
+    transform: translate(var(--dx, 0px), var(--dy, -60px));
+    opacity: 0;
+  }
+}
+.drift-dot {
+  transform-box: fill-box;
+  animation: drift-dot var(--dur, 3s) linear var(--delay, 0s) infinite;
+}
+/* A fan seen edge-on in section: the blade flattens and flips as it turns. */
+@keyframes blade {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(-1);
+  }
+}
+.blade-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blade 0.55s linear infinite;
+}
+
+/* Liquid-filled numbers: the canvas sits behind real text; the ink layer knocks the liquid out through the glyphs. */
+.liquid-text {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  margin: -0.16em -0.04em;
+  vertical-align: baseline;
+}
+.liquid-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.liquid-ink {
+  position: relative;
+  display: inline-block;
+  padding: 0.16em 0.04em;
+  background: var(--bg);
+  color: var(--ink);
+  mix-blend-mode: screen;
+}
+.band-dark .liquid-ink {
+  mix-blend-mode: multiply;
+}
+.liquid-fallback .liquid-canvas {
+  display: none;
+}
+.liquid-fallback .liquid-ink {
+  mix-blend-mode: normal;
+  background: linear-gradient(100deg, rgb(160, 224, 171), rgb(255, 172, 46) 50%, rgb(165, 45, 37));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 /* ------------------------------------------------------------ range input */
 
 input[type="range"] {
@@ -256,7 +326,12 @@ input[type="range"]::-moz-range-thumb {
 @media (prefers-reduced-motion: reduce) {
   .pipe-flow,
   .fan-spin,
-  .badge-spin {
+  .badge-spin,
+  .blade-spin {
     animation: none;
+  }
+  .drift-dot {
+    animation: none;
+    opacity: var(--o, 0.5);
   }
 }

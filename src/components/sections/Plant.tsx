@@ -1,15 +1,12 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import dynamic from "next/dynamic";
 import { animate, AnimatePresence, motion, type AnimationPlaybackControls } from "motion/react";
 import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { Term } from "@/components/ui/Term";
 import { PlantSchematic } from "@/components/viz/PlantSchematic";
 import { ADIABATIC_LIMIT_C, FREE_COOLING_LIMIT_C, selectMode, type WaterState } from "@/lib/plantModes";
-
-const Plant3D = dynamic(() => import("@/components/three/Plant3D"), { ssr: false });
 
 const T_MIN = 10;
 const T_MAX = 42;
@@ -43,7 +40,6 @@ export function Plant() {
   const [temp, setTemp] = useState(22);
   const [water, setWater] = useState<WaterState>("normal");
   const [hour, setHour] = useState<number | null>(null);
-  const [view, setView] = useState<"3d" | "schematic">("3d");
   const playback = useRef<AnimationPlaybackControls | null>(null);
   const sliderId = useId();
   const state = selectMode(temp, water);
@@ -88,22 +84,7 @@ export function Plant() {
       }
     >
       <div className="mt-20 border-t border-rule pt-6">
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <div role="radiogroup" aria-label="Plant view" className="pill-group">
-            {(
-              [
-                ["3d", "3D model"],
-                ["schematic", "Schematic"],
-              ] as const
-            ).map(([key, label]) => (
-              <button key={key} type="button" role="radio" aria-checked={view === key} onClick={() => setView(key)}>
-                {label}
-              </button>
-            ))}
-          </div>
-          {view === "3d" && <p className="t-caption m-0 hidden text-faint md:block">Drag to orbit</p>}
-        </div>
-        {view === "3d" ? <Plant3D state={state} /> : <PlantSchematic state={state} />}
+        <PlantSchematic state={state} />
 
         <div className="mt-10 grid gap-12 border-t border-line pt-10 lg:grid-cols-3 lg:gap-10">
           <div>

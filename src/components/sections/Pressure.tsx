@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { LiquidText } from "@/components/ui/LiquidText";
 import { Counter } from "@/components/ui/Counter";
 import { Term } from "@/components/ui/Term";
 import { SourceNote } from "@/components/ui/SourceNote";
@@ -33,7 +34,9 @@ export function Pressure() {
       <div className="mt-24 grid gap-14 md:grid-cols-3 md:gap-10">
         <Reveal className="flex flex-col gap-7 border-t border-rule pt-7">
           <p className="t-stat m-0">
-            <Counter value={figures.requestMLPerDay.low} />–<Counter value={figures.requestMLPerDay.high} />
+            <LiquidText>
+              <Counter value={figures.requestMLPerDay.low} />–<Counter value={figures.requestMLPerDay.high} />
+            </LiquidText>
           </p>
           <p className="m-0 max-w-[280px] leading-normal">
             <Term k="ML" /> per day sought by individual data centre applications to Australian water utilities.
@@ -41,7 +44,9 @@ export function Pressure() {
         </Reveal>
         <Reveal delay={0.1} className="flex flex-col gap-7 border-t border-rule pt-7">
           <p className="t-stat m-0">
-            ~<Counter value={figures.requestVsLargestCustomer} suffix="×" />
+            <LiquidText>
+              ~<Counter value={figures.requestVsLargestCustomer} suffix="×" />
+            </LiquidText>
           </p>
           <p className="m-0 max-w-[280px] leading-normal">
             The upper request compared with the draw of the largest existing single customer.
@@ -49,7 +54,9 @@ export function Pressure() {
         </Reveal>
         <Reveal delay={0.2} className="flex flex-col gap-7 border-t border-rule pt-7">
           <p className="t-stat m-0">
-            <Counter value={figures.requestMLPerDay.high / figures.olympicPoolML} />
+            <LiquidText>
+              <Counter value={figures.requestMLPerDay.high / figures.olympicPoolML} />
+            </LiquidText>
           </p>
           <p className="m-0 max-w-[280px] leading-normal">Olympic pools a day, at 40 ML/day.</p>
         </Reveal>

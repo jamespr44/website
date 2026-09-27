@@ -2,6 +2,7 @@
 
 import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { LiquidText } from "@/components/ui/LiquidText";
 import { Counter } from "@/components/ui/Counter";
 import { Term } from "@/components/ui/Term";
 import { SourceNote } from "@/components/ui/SourceNote";
@@ -28,7 +29,9 @@ export function Hardware() {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="t-stat mt-6">
-            <Counter value={figures.tcsSetpointC} /> °C
+            <LiquidText>
+              <Counter value={figures.tcsSetpointC} /> °C
+            </LiquidText>
           </p>
           <p className="mt-7 text-muted">
             The durable coolant target that silicon and system vendors have converged on. Next-generation accelerators
@@ -49,7 +52,9 @@ export function Hardware() {
         <div className="mt-10 grid gap-14 sm:grid-cols-2 sm:gap-10">
           <Reveal className="border-t border-rule pt-7">
             <p className="t-stat mt-6">
-              +<Counter value={figures.gheniItPowerPct} decimals={2} suffix="%" />
+              <LiquidText>
+                +<Counter value={figures.gheniItPowerPct} decimals={2} suffix="%" />
+              </LiquidText>
             </p>
             <p className="mt-7 text-muted">
               IT power across an {figures.gheniDeltaK} K rise in <Term k="TCS" /> temperature, measured on an
@@ -59,7 +64,9 @@ export function Hardware() {
           </Reveal>
           <Reveal delay={0.1} className="border-t border-rule pt-7">
             <p className="t-stat mt-6">
-              +<Counter value={figures.stahlhutPowerPct} decimals={1} suffix="%" />
+              <LiquidText>
+                +<Counter value={figures.stahlhutPowerPct} decimals={1} suffix="%" />
+              </LiquidText>
             </p>
             <p className="mt-7 text-muted">Additional server power as coolant rises from 30 to 50 °C.</p>
             <SourceNote>Stahlhut et al. (2025)</SourceNote>
