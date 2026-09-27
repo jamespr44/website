@@ -49,7 +49,7 @@ export function Now() {
         </Reveal>
       </Section>
 
-      <footer className="band-dark border-t border-line px-4 pt-10 pb-12 sm:px-8">
+      <footer className="border-t border-line px-4 pt-10 pb-12 sm:px-8">
         <div className="mx-auto grid max-w-[1078px] gap-8 md:grid-cols-3">
           <div className="t-caption space-y-2 text-muted">
             <p className="m-0 text-ink">James Gianoutsos</p>

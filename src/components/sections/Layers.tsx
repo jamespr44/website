@@ -81,7 +81,7 @@ export function Layers() {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 1.25, delay: i * 0.12, ease: [0.19, 1, 0.22, 1] }}
             className={`grid gap-5 border-b border-line py-8 md:grid-cols-[200px_minmax(0,1fr)_minmax(0,1.2fr)] md:gap-10 ${
-              l.gap ? "band-dark -mx-4 px-4 sm:-mx-8 sm:px-8 md:mx-0 md:px-6" : ""
+              l.gap ? "panel -mx-4 px-4 sm:-mx-8 sm:px-8 md:mx-0 md:px-6" : ""
             }`}
           >
             <p className="t-label m-0">

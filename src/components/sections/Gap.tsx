@@ -31,7 +31,7 @@ export function Gap() {
       </Reveal>
 
       <Reveal className="mt-20">
-        <figure className="band-dark m-0 px-6 py-12 md:px-14 md:py-16">
+        <figure className="panel m-0 px-6 py-12 md:px-14 md:py-16">
           <p className="t-label m-0">The research question</p>
           <blockquote className="t-whisper mx-0 mt-8 mb-0 max-w-[900px] !text-[clamp(30px,4.2vw,54px)]">
             For a 30 °C <Term k="TCS" /> setpoint in a warm, humid climate, how many hours a year can a dry cooler hold

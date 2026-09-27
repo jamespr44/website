@@ -31,7 +31,7 @@ export function Term({ k, children }: { k: GlossaryKey; children?: React.ReactNo
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}
             transition={{ duration: 0.18 }}
-            className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 block w-64 max-w-[75vw] -translate-x-1/2 bg-black px-4 py-3.5 text-left font-sans text-xs leading-normal font-normal tracking-normal text-[#9a9a9a] outline outline-1 outline-white/20"
+            className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 block w-64 max-w-[75vw] -translate-x-1/2 bg-raised px-4 py-3.5 text-left font-sans text-xs leading-normal font-normal tracking-normal text-[#9a9a9a] outline outline-1 outline-white/20"
           >
             <span className="mb-1 block text-white">{entry.term}</span>
             {entry.def}

@@ -86,7 +86,7 @@ export function GapMatrix() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.8 }}
               transition={{ duration: 1, delay: ri * 0.08, ease: [0.19, 1, 0.22, 1] }}
-              className={r.self ? "band-dark" : "border-b border-line"}
+              className={r.self ? "panel" : "border-b border-line"}
             >
               <th scope="row" className="py-5 pr-4 pl-3 align-top font-normal">
                 <span className="block">{r.who}</span>

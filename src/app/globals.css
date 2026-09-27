@@ -4,25 +4,26 @@
 /*
  * Editorial monochrome. The interface is black, white and grey; colour lives only in the hero backdrop and in the
  * charts and 3D scenes (sage = free cooling / water saved, amber = heat, oxblood = mechanical cooling / hot).
- * Every colour below is a token, and `.band-dark` swaps them inside black sections.
+ * Every colour below is a token. The site is black throughout; `.band-dark` is kept as an explicit alias so a panel can
+ * force the dark palette if a light theme is ever reintroduced.
  */
 :root {
-  --bg: #ffffff;
-  --bg-raised: #f4f4f4;
-  --ink: #000000;
-  --inkstone: #181818;
-  --muted: #6d6d6d;
-  --faint: #767676;
-  --line: rgba(0, 0, 0, 0.12);
-  --rule: #000000;
-  --track: #ececec;
+  --bg: #000000;
+  --bg-raised: #111111;
+  --ink: #ffffff;
+  --inkstone: #e6e6e6;
+  --muted: #9a9a9a;
+  --faint: #8a8a8a;
+  --line: rgba(255, 255, 255, 0.18);
+  --rule: #ffffff;
+  --track: #222222;
 
   --sage: #a0e0ab;
   --amber: #ffac2e;
   --oxblood: #a52d25;
   /* Chart strokes that must read as lines on the current surface */
-  --sage-line: #4f9a5c;
-  --amber-line: #d98300;
+  --sage-line: #a0e0ab;
+  --amber-line: #ffac2e;
 
   --ease: cubic-bezier(0.19, 1, 0.22, 1);
 
@@ -32,6 +33,12 @@
   --heat: var(--amber-line);
   --hot: var(--oxblood);
   --water-deep: var(--muted);
+}
+
+/* A slightly lifted surface for emphasis panels on the black page. */
+.panel {
+  background: var(--bg-raised);
+  outline: 1px solid var(--line);
 }
 
 .band-dark {
@@ -264,10 +271,7 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  /* Deepen the liquid on white so light sage folds keep large-text contrast; lift it slightly on black. */
-  filter: brightness(0.72) saturate(1.15);
-}
-.band-dark .liquid-canvas {
+  /* Lift the liquid slightly so its darkest folds stay readable against black. */
   filter: brightness(1.15) saturate(1.1);
 }
 .liquid-block,
@@ -280,9 +284,6 @@ body {
   padding: 0.16em 0.04em;
   background: var(--bg);
   color: var(--ink);
-  mix-blend-mode: screen;
-}
-.band-dark .liquid-ink {
   mix-blend-mode: multiply;
 }
 .liquid-fallback .liquid-canvas {

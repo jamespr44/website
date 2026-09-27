@@ -16,8 +16,8 @@ An earlier real-time 3D (three.js) version of the equipment is kept on the `shel
 
 ## Design
 
-Editorial monochrome: black, white and grey type on square corners, with 75px pills as the only rounded shape and
-no shadows. Colour appears in only two places:
+Editorial monochrome on a black page: white and grey type on square corners, with 75px pills as the only rounded
+shape and no shadows. Colour appears in only two places:
 
 - the iridescent liquid (`src/lib/liquid.ts`). It fills the hero backdrop and, through `LiquidText`, the key figures.
   One shared offscreen renderer (`src/lib/liquidRenderer.ts`) paints every figure, so the liquid reads as one sheet
@@ -25,8 +25,9 @@ no shadows. Colour appears in only two places:
 - charts and schematics, using the same three hues: sage for free cooling and water saved, amber for heat, and
   oxblood for mechanical cooling, 55 °C water and breaches.
 
-Every colour is a CSS token in `src/app/globals.css`. `.band-dark` swaps the tokens for black sections, so a site-wide
-dark mode is mostly a matter of applying the same swap at the root.
+Every colour is a CSS token in `src/app/globals.css`, and `:root` holds the black palette. Sections are separated by
+hairline rules; `.panel` gives a raised `#111` surface for the few things that need emphasis. `.band-dark` survives
+only as an alias, so a light theme would be a matter of redefining the tokens.
 
 ## Running locally
 

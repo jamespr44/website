@@ -9,18 +9,18 @@ type Props = {
   lede?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
-  /** Black band with inverted tokens. */
+  /** Kept for call sites; the whole site is now black, so both tones render the same. */
   tone?: "light" | "dark";
 };
 
 /** Chapter wrapper: "01 — Kicker" label in a narrow column, whisper-weight headline and optional lede. */
-export function Section({ id, kicker, title, lede, children, className = "", tone = "light" }: Props) {
+export function Section({ id, kicker, title, lede, children, className = "" }: Props) {
   const n = String(chapterIndex(id)).padStart(2, "0");
   return (
     <section
       id={id}
       data-chapter={id}
-      className={`relative px-4 py-32 sm:px-8 md:py-[152px] ${tone === "dark" ? "band-dark" : "bg-bg"} ${className}`}
+      className={`relative px-4 py-32 sm:px-8 md:py-[152px] border-t border-line bg-bg ${className}`}
     >
       <div className="mx-auto max-w-[1078px]">
         <div className="grid gap-6 md:grid-cols-[200px_minmax(0,1fr)] md:gap-10">
