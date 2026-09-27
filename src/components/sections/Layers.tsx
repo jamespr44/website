@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { Section, Prose } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { LiquidText } from "@/components/ui/LiquidText";
 import { Term } from "@/components/ui/Term";
 import { figures } from "@/content/chapters";
 
@@ -87,7 +88,11 @@ export function Layers() {
               {String(i + 1).padStart(2, "0")} — {l.tier}
             </p>
             <div>
-              <h3 className="t-sub m-0">{l.title}</h3>
+              <h3 className="t-sub m-0">
+                <LiquidText block zoom={1.6}>
+                  {l.title}
+                </LiquidText>
+              </h3>
               <p className="t-label mt-4 mb-0 text-muted">{l.signal}</p>
               <p className="t-label mt-1 mb-0">{l.who}</p>
             </div>

@@ -47,7 +47,11 @@ export function Hardware() {
 
       <div className="mt-24">
         <Reveal>
-          <h3 className="t-sub max-w-2xl">Running warmer isn’t free on the IT side either.</h3>
+          <h3 className="t-sub max-w-2xl">
+            <LiquidText block zoom={1.6}>
+              Running warmer isn’t free on the IT side either.
+            </LiquidText>
+          </h3>
         </Reveal>
         <div className="mt-10 grid gap-14 sm:grid-cols-2 sm:gap-10">
           <Reveal className="border-t border-rule pt-7">

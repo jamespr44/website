@@ -1,5 +1,6 @@
 import { chapterIndex, type ChapterId } from "@/content/chapters";
 import { Reveal } from "./Reveal";
+import { LiquidText } from "./LiquidText";
 
 type Props = {
   id: ChapterId;
@@ -30,7 +31,11 @@ export function Section({ id, kicker, title, lede, children, className = "", ton
           </Reveal>
           <div>
             <Reveal delay={0.05}>
-              <h2 className="t-whisper m-0">{title}</h2>
+              <h2 className="t-whisper m-0">
+                <LiquidText block zoom={1.3}>
+                  {title}
+                </LiquidText>
+              </h2>
             </Reveal>
             {lede && (
               <Reveal delay={0.12}>

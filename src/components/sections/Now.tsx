@@ -2,6 +2,7 @@
 
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { LiquidText } from "@/components/ui/LiquidText";
 import { SourceNote } from "@/components/ui/SourceNote";
 
 export function Now() {
@@ -39,9 +40,11 @@ export function Now() {
 
         <Reveal className="mt-40">
           <p className="m-0 text-[clamp(52px,9vw,124px)] leading-[0.86] font-normal tracking-[-0.04em]">
-            Reject heat to the air.
-            <br />
-            <span className="font-light text-muted">Use water only when the community can spare it.</span>
+            <LiquidText block zoom={1.3}>
+              Reject heat to the air.
+              <br />
+              <span className="font-light text-muted">Use water only when the community can spare it.</span>
+            </LiquidText>
           </p>
         </Reveal>
       </Section>
