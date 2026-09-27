@@ -23,10 +23,12 @@ const EVAP_OUT = world(nozzles.evapOut);
 const COND_OUT = world(nozzles.condOut);
 const COND_IN = world(nozzles.condIn);
 
-const WARM = "#fb923c";
-const COOL = "#38bdf8";
-const HOT = "#f43f5e";
-const AMBER = "#f59e0b";
+// Data hues tuned for the white studio stage
+const WARM = "#e08a00";
+const COOL = "#4f9a5c";
+const HOT = "#a52d25";
+const AMBER = "#e08a00";
+const WATER = "#5f6b75";
 
 // Pipe routes (see the plant schematic for the same topology in 2D)
 const R = {
@@ -116,8 +118,8 @@ function Racks() {
     () => ({
       body: new THREE.MeshStandardMaterial({ color: "#14181e", roughness: 0.55, metalness: 0.5 }),
       door: new THREE.MeshStandardMaterial({ color: "#232a33", roughness: 0.35, metalness: 0.7 }),
-      ledG: new THREE.MeshStandardMaterial({ color: "#34d399", emissive: "#34d399", emissiveIntensity: 2 }),
-      ledB: new THREE.MeshStandardMaterial({ color: "#38bdf8", emissive: "#38bdf8", emissiveIntensity: 2 }),
+      ledG: new THREE.MeshStandardMaterial({ color: "#a0e0ab", emissive: "#a0e0ab", emissiveIntensity: 2 }),
+      ledB: new THREE.MeshStandardMaterial({ color: "#ffffff", emissive: "#ffffff", emissiveIntensity: 1.5 }),
     }),
     [],
   );
@@ -172,8 +174,8 @@ function Tank({ locked, active }: { locked: boolean; active: boolean }) {
         <mesh castShadow>
           <boxGeometry args={[0.3, 0.3, 0.3]} />
           <meshStandardMaterial
-            color={locked ? "#ef4444" : active ? "#38bdf8" : "#6b7784"}
-            emissive={locked ? "#ef4444" : "#000"}
+            color={locked ? HOT : active ? WATER : "#9aa0a6"}
+            emissive={locked ? HOT : "#000"}
             emissiveIntensity={locked ? 0.6 : 0}
           />
         </mesh>
@@ -183,7 +185,7 @@ function Tank({ locked, active }: { locked: boolean; active: boolean }) {
         </mesh>
         <mesh position-y={0.45} rotation-x={Math.PI / 2}>
           <torusGeometry args={[0.13, 0.025, 8, 24]} />
-          <meshStandardMaterial color={locked ? "#ef4444" : "#8f98a3"} />
+          <meshStandardMaterial color={locked ? HOT : "#8f98a3"} />
         </mesh>
       </group>
     </group>
@@ -193,14 +195,13 @@ function Tank({ locked, active }: { locked: boolean; active: boolean }) {
 function Tag({ position, title, sub, tone }: { position: Vec3; title: string; sub?: string; tone: string }) {
   return (
     <Html position={position} center distanceFactor={11} zIndexRange={[10, 0]}>
-      <div
-        className="pointer-events-none hidden rounded-xl border px-3 py-1.5 text-center whitespace-nowrap backdrop-blur sm:block"
-        style={{ borderColor: tone, background: "rgba(5,11,20,0.72)" }}
-      >
-        <div className="text-[13px] font-semibold" style={{ color: tone }}>
-          {title}
-        </div>
-        {sub && <div className="text-[11px] text-[#8ea3bb]">{sub}</div>}
+      <div className="pointer-events-none hidden bg-black px-3 py-2 whitespace-nowrap text-white sm:block">
+        <div className="text-[12px]">{title}</div>
+        {sub && (
+          <div className="text-[11px]" style={{ color: tone === "#ffffff" ? "#9a9a9a" : tone }}>
+            {sub}
+          </div>
+        )}
       </div>
     </Html>
   );
@@ -236,26 +237,26 @@ function Plant({ state }: { state: PlantState }) {
       <Pipe points={R.supplyB} flow={chiller ? HOT : WARM} />
       <Pipe points={R.returnA} flow={chiller ? AMBER : COOL} />
       <Pipe points={R.returnB} flow={chiller ? AMBER : COOL} />
-      <Pipe points={R.water} radius={0.07} color="#3c4a58" flow="#7dd3fc" active={adiabatic} />
+      <Pipe points={R.water} radius={0.07} color="#3c4a58" flow={WATER} active={adiabatic} />
 
-      <Tag position={[-7.5, 2.9, 0]} title="IT load" sub="TCS loop · 30 °C" tone="#e7eef7" />
+      <Tag position={[-7.5, 2.9, 0]} title="IT load" sub="TCS loop · 30 °C" tone="#ffffff" />
       <Tag
         position={[CHILLER_X, 2.75, 0]}
         title="High-temp chiller"
         sub={chiller ? "running" : "bypassed"}
-        tone={chiller ? AMBER : "#8ea3bb"}
+        tone="#ffffff"
       />
       <Tag
         position={[DC_X + 0.6, 3.3, 3.3]}
         title="Dry coolers"
         sub={adiabatic ? "adiabatic assist on" : "dry"}
-        tone="#34d399"
+        tone="#ffffff"
       />
       <Tag
         position={[TANK[0], 3.6, TANK[2]]}
         title="Community water"
         sub={adiabaticLockedOut ? "gate closed" : adiabatic ? "gate open" : "not needed"}
-        tone={adiabaticLockedOut ? "#ef4444" : "#7dd3fc"}
+        tone={adiabaticLockedOut ? "#e0584c" : "#ffffff"}
       />
     </group>
   );

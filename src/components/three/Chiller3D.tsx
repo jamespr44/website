@@ -29,10 +29,10 @@ export const nozzles = {
 export type ChillerPart = "evaporator" | "compressor" | "condenser" | "valve";
 
 const HIGHLIGHT: Record<ChillerPart, string> = {
-  evaporator: "#38bdf8",
-  compressor: "#f43f5e",
-  condenser: "#f59e0b",
-  valve: "#a78bfa",
+  evaporator: "#a0e0ab",
+  compressor: "#e0584c",
+  condenser: "#ffac2e",
+  valve: "#ffffff",
 };
 
 function useGlow(part: ChillerPart, highlight: ChillerPart | null | undefined, mat: THREE.MeshStandardMaterial) {
@@ -82,14 +82,14 @@ export function ChillerModel({
         roughness: 0.3,
         metalness: 0.85,
       }),
-      waterbox: new THREE.MeshStandardMaterial({ color: "#2c3e57", roughness: 0.45, metalness: 0.5 }),
+      waterbox: new THREE.MeshStandardMaterial({ color: "#3b4046", roughness: 0.45, metalness: 0.5 }),
       skid: new THREE.MeshStandardMaterial({ color: "#2a3038", roughness: 0.6, metalness: 0.5 }),
       valve: new THREE.MeshStandardMaterial({ color: "#8f98a3", roughness: 0.35, metalness: 0.8 }),
       wheel: new THREE.MeshStandardMaterial({ color: "#c0392b", roughness: 0.5, metalness: 0.3 }),
       panel: new THREE.MeshStandardMaterial({ color: "#d9dde1", roughness: 0.5, metalness: 0.2 }),
       screen: new THREE.MeshStandardMaterial({
         color: "#0b1622",
-        emissive: running ? "#38bdf8" : "#0b1622",
+        emissive: running ? "#ffffff" : "#0b1622",
         emissiveIntensity: 0.7,
       }),
     };
@@ -271,9 +271,9 @@ const LOOP: Vec3[] = [
   [1.45, EVAP.y, EVAP.z],
 ];
 
-const cold = new THREE.Color("#38bdf8");
-const hot = new THREE.Color("#f43f5e");
-const warm = new THREE.Color("#f59e0b");
+const cold = new THREE.Color("#a0e0ab");
+const hot = new THREE.Color("#e0584c");
+const warm = new THREE.Color("#ffac2e");
 
 function RefrigerantFlow() {
   const reduced = useReducedMotionSafe();
@@ -371,8 +371,8 @@ function Label({ position, children, tone }: { position: Vec3; children: React.R
   return (
     <Html position={position} center zIndexRange={[10, 0]}>
       <span
-        className="rounded-full border px-2.5 py-1 text-[11px] font-medium whitespace-nowrap backdrop-blur"
-        style={{ borderColor: tone, color: tone, background: "rgba(5,11,20,0.7)" }}
+        className="rounded-[75px] border bg-black px-3 py-1 text-[11px] whitespace-nowrap"
+        style={{ borderColor: tone, color: tone }}
       >
         {children}
       </span>
@@ -397,6 +397,7 @@ export default function Chiller3D({ step }: { step: number }) {
       target={shots[0].look}
       ground={7}
       orbit={false}
+      stage="dark"
       className="h-full w-full"
     >
       <CameraRig step={step} />
@@ -410,31 +411,31 @@ export default function Chiller3D({ step }: { step: number }) {
       <Pipe
         points={[[-4.2, nozzles.evapIn[1], nozzles.evapIn[2]], nozzles.evapIn]}
         radius={0.13}
-        flow="#fb923c"
+        flow="#ffac2e"
         speed={0.7}
       />
       <Pipe
         points={[nozzles.evapOut, [-4.2, nozzles.evapOut[1], nozzles.evapOut[2]]]}
         radius={0.13}
-        flow="#38bdf8"
+        flow="#a0e0ab"
         speed={0.7}
       />
       <Pipe
         points={[nozzles.condOut, [-4.2, nozzles.condOut[1], nozzles.condOut[2]]]}
         radius={0.13}
-        flow="#f43f5e"
+        flow="#e0584c"
         speed={0.7}
       />
       <Pipe
         points={[[-4.2, nozzles.condIn[1], nozzles.condIn[2]], nozzles.condIn]}
         radius={0.13}
-        flow="#f59e0b"
+        flow="#ffac2e"
         speed={0.7}
       />
-      <Label position={[-3.6, nozzles.evapOut[1] - 0.3, EVAP.z + 0.2]} tone="#38bdf8">
+      <Label position={[-3.6, nozzles.evapOut[1] - 0.3, EVAP.z + 0.2]} tone="#a0e0ab">
         TCS out · 30 °C
       </Label>
-      <Label position={[-3.6, nozzles.condOut[1] + 0.35, COND.z - 0.2]} tone="#f43f5e">
+      <Label position={[-3.6, nozzles.condOut[1] + 0.35, COND.z - 0.2]} tone="#e0584c">
         to dry coolers · ≤55 °C
       </Label>
     </Scene>

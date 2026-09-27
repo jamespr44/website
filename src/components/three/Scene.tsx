@@ -7,6 +7,7 @@ import { Environment, Lightformer, OrbitControls } from "@react-three/drei";
 import { useInView } from "motion/react";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { concreteTexture, radialFade } from "./textures";
+import { StageContext, type Stage } from "./stage";
 
 type Vec3 = [number, number, number];
 
@@ -20,9 +21,11 @@ type Props = {
   orbit?: boolean;
   className?: string;
   label: string;
+  /** "light": white studio on a white section. "dark": low-key stage on a black band. */
+  stage?: Stage;
 };
 
-function Ground({ radius }: { radius: number }) {
+function Ground({ radius, stage }: { radius: number; stage: Stage }) {
   const [map, alpha] = useMemo(() => {
     const m = concreteTexture().clone();
     m.repeat.set(radius / 4, radius / 4);
@@ -33,14 +36,18 @@ function Ground({ radius }: { radius: number }) {
     // Drawn first and without depth writes, so particles and glass always composite over it.
     <mesh rotation-x={-Math.PI / 2} position-y={-0.001} receiveShadow renderOrder={-1}>
       <circleGeometry args={[radius, 64]} />
-      <meshStandardMaterial
-        map={map}
-        alphaMap={alpha}
-        transparent
-        depthWrite={false}
-        color="#39414b"
-        roughness={0.95}
-      />
+      {stage === "light" ? (
+        <meshStandardMaterial alphaMap={alpha} transparent depthWrite={false} color="#f2f2f2" roughness={1} />
+      ) : (
+        <meshStandardMaterial
+          map={map}
+          alphaMap={alpha}
+          transparent
+          depthWrite={false}
+          color="#2a2d31"
+          roughness={0.95}
+        />
+      )}
     </mesh>
   );
 }
@@ -57,7 +64,9 @@ export default function Scene({
   orbit = true,
   className = "",
   label,
+  stage = "light",
 }: Props) {
+  const light = stage === "light";
   const ref = useRef<HTMLDivElement>(null);
   const near = useInView(ref, { margin: "300px 0px" });
   const reduced = useReducedMotionSafe();
@@ -87,13 +96,18 @@ export default function Scene({
           dpr={[1, 1.75]}
           frameloop={!near ? "never" : reduced ? "demand" : "always"}
           camera={{ position: camera.position, fov: camera.fov ?? 35, near: 0.1, far: 200 }}
-          gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.2 }}
+          gl={{
+            antialias: true,
+            alpha: true,
+            toneMapping: THREE.ACESFilmicToneMapping,
+            toneMappingExposure: light ? 1.0 : 1.15,
+          }}
           onCreated={({ camera: cam }) => cam.lookAt(...target)}
         >
-          <hemisphereLight args={["#cfe3ff", "#1a2330", 0.55]} />
+          <hemisphereLight args={light ? ["#ffffff", "#d6d6d6", 1.3] : ["#e8e8e8", "#141414", 0.5]} />
           <directionalLight
             position={[8, 14, 6]}
-            intensity={2.4}
+            intensity={light ? 2.1 : 2.4}
             castShadow
             shadow-mapSize={[2048, 2048]}
             shadow-bias={-0.0004}
@@ -102,9 +116,9 @@ export default function Scene({
             shadow-camera-top={14}
             shadow-camera-bottom={-14}
           />
-          <directionalLight position={[-10, 6, -8]} intensity={0.6} color="#8fb8ff" />
+          <directionalLight position={[-10, 6, -8]} intensity={light ? 0.9 : 0.5} color="#ffffff" />
           <Environment resolution={256} frames={1}>
-            <Lightformer form="rect" intensity={3} position={[0, 6, -8]} scale={[16, 4, 1]} color="#dfeaff" />
+            <Lightformer form="rect" intensity={3} position={[0, 6, -8]} scale={[16, 4, 1]} color="#ffffff" />
             <Lightformer
               form="rect"
               intensity={1.5}
@@ -118,13 +132,13 @@ export default function Scene({
               position={[8, 3, 4]}
               rotation-y={-Math.PI / 2}
               scale={[10, 3, 1]}
-              color="#ffd9a8"
+              color="#fff4e6"
             />
             <Lightformer form="circle" intensity={4} position={[0, 12, 0]} rotation-x={Math.PI / 2} scale={6} />
           </Environment>
 
-          {children}
-          <Ground radius={ground} />
+          <StageContext.Provider value={stage}>{children}</StageContext.Provider>
+          <Ground radius={ground} stage={stage} />
 
           {orbit && finePointer && (
             <OrbitControls
@@ -138,7 +152,7 @@ export default function Scene({
           )}
         </Canvas>
       )}
-      {!armed && <div className="absolute inset-0 animate-pulse rounded-3xl bg-white/[0.02]" />}
+      {!armed && <div className="absolute inset-0 animate-pulse bg-track/40" />}
     </div>
   );
 }

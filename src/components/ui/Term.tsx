@@ -18,7 +18,7 @@ export function Term({ k, children }: { k: GlossaryKey; children?: React.ReactNo
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
         onClick={() => setOpen((o) => !o)}
-        className="cursor-help border-b border-dotted border-water/70 text-inherit decoration-0 transition-colors hover:text-water"
+        className="cursor-help border-b border-dotted border-current text-inherit decoration-0 transition-opacity duration-300 hover:opacity-60"
       >
         {children ?? entry.term}
       </button>
@@ -31,9 +31,9 @@ export function Term({ k, children }: { k: GlossaryKey; children?: React.ReactNo
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}
             transition={{ duration: 0.18 }}
-            className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 block w-64 max-w-[75vw] -translate-x-1/2 rounded-xl border border-line bg-raised/95 p-3 text-left font-sans text-sm leading-snug font-normal text-muted shadow-2xl shadow-black/50 backdrop-blur"
+            className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 block w-64 max-w-[75vw] -translate-x-1/2 bg-black px-4 py-3.5 text-left font-sans text-xs leading-normal font-normal tracking-normal text-[#9a9a9a] outline outline-1 outline-white/20"
           >
-            <span className="mb-1 block font-semibold text-ink">{entry.term}</span>
+            <span className="mb-1 block text-white">{entry.term}</span>
             {entry.def}
           </motion.span>
         )}

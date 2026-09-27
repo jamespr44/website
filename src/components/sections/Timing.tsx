@@ -12,6 +12,7 @@ export function Timing() {
   return (
     <Section
       id="timing"
+      tone="dark"
       kicker="The metric hides the timing"
       title={<>A year’s average can’t see a heatwave.</>}
       lede={
@@ -28,10 +29,10 @@ export function Timing() {
 
       <div className="mt-24 grid gap-12 md:grid-cols-[0.8fr_1fr] md:items-center">
         <Reveal>
-          <p className="font-display text-8xl font-semibold text-heat md:text-9xl">
+          <p className="t-stat mt-6">
             <Counter value={figures.wueSpreadPct} suffix="%" />
           </p>
-          <p className="mt-3 max-w-sm text-muted">
+          <p className="mt-7 max-w-sm text-muted">
             The relative spread in estimated WUE across ten facility archetypes and fifteen climate zones.
           </p>
           <SourceNote>Lei &amp; Masanet (2022)</SourceNote>
@@ -52,20 +53,20 @@ export function Timing() {
 
       <div className="mt-24">
         <Reveal>
-          <p className="mb-8 text-sm tracking-widest text-faint uppercase">The debate</p>
+          <p className="mb-8 text-sm text-faint">The debate</p>
         </Reveal>
-        <div className="grid gap-6 md:grid-cols-2">
-          <Reveal className="rounded-3xl border border-line bg-card/40 p-8">
-            <p className="text-xs tracking-widest text-muted uppercase">Gaster, 2026</p>
-            <p className="mt-4 font-display text-2xl leading-snug">
+        <div className="grid gap-14 md:grid-cols-2 md:gap-10">
+          <Reveal className="border-t border-rule pt-7">
+            <p className="t-label text-muted">Gaster, 2026</p>
+            <p className="t-sub mt-4">
               “The data center water problem is soluble.” On annual volumes, data centre water use is modest next to
               agricultural and municipal demand.
             </p>
             <p className="mt-4 text-sm text-faint">A fair reading of the aggregate figures.</p>
           </Reveal>
-          <Reveal delay={0.12} className="rounded-3xl border border-hot/40 bg-hot/[0.06] p-8">
-            <p className="text-xs tracking-widest text-hot uppercase">Han et al., 2026</p>
-            <p className="mt-4 font-display text-2xl leading-snug">
+          <Reveal delay={0.12} className="border-t border-rule pt-7">
+            <p className="t-label">Han et al., 2026</p>
+            <p className="t-sub mt-4">
               Impacts fall on individual public water systems, not national totals. Stress is greatest where consumption
               coincides with constrained supply.
             </p>
@@ -73,8 +74,8 @@ export function Timing() {
           </Reveal>
         </div>
         <Reveal delay={0.2}>
-          <p className="mt-12 text-center font-display text-3xl text-balance md:text-4xl">
-            Supply fails on <span className="text-hot italic">coincidence</span>, not on total draw.
+          <p className="t-sub mt-16 max-w-[760px]">
+            Supply fails on <span className="italic">coincidence</span>, not on total draw.
           </p>
         </Reveal>
       </div>

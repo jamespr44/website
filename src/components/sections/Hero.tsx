@@ -3,108 +3,74 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
-import { seeded } from "@/lib/random";
+import { IridescentBackdrop } from "@/components/ui/IridescentBackdrop";
+import { chapters } from "@/content/chapters";
 
-const rand = seeded(7);
-const vapour = Array.from({ length: 28 }, () => ({
-  left: rand() * 100,
-  size: 40 + rand() * 140,
-  delay: rand() * 10,
-  duration: 12 + rand() * 10,
-  drift: (rand() - 0.5) * 120,
-}));
-
-const headline = ["Cooling", "the", "cloud", "without", "draining", "the", "tap."];
+const ease = [0.19, 1, 0.22, 1] as const;
+const lines = ["Cooling", "the cloud"];
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotionSafe();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 160]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, reduced ? 1 : 0]);
-  const glow = useTransform(scrollYProgress, [0, 1], [1, 1.35]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 220]);
+  const opacity = useTransform(scrollYProgress, [0, 0.75], [1, reduced ? 1 : 0]);
 
   return (
-    <header
+    <section
       ref={ref}
       id="intro"
       data-chapter="intro"
-      className="relative flex min-h-svh items-center overflow-hidden px-5 sm:px-8 md:pl-28"
+      className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-black px-4 text-white"
     >
-      {/* Heat below, deep water above */}
-      <motion.div
-        aria-hidden
-        style={{ scale: glow }}
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_55%_at_50%_110%,rgba(245,158,11,0.35),transparent_60%),radial-gradient(ellipse_60%_50%_at_80%_0%,rgba(56,189,248,0.18),transparent_60%)]"
-      />
-      <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden">
-        {!reduced &&
-          vapour.map((p, i) => (
-            <motion.span
-              key={i}
-              className="absolute bottom-[-20%] rounded-full bg-white/[0.05] blur-2xl"
-              style={{ left: `${p.left}%`, width: p.size, height: p.size }}
-              animate={{ y: ["0vh", "-130vh"], x: [0, p.drift], opacity: [0, 1, 0] }}
-              transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "easeOut" }}
-            />
-          ))}
-      </div>
+      <IridescentBackdrop />
 
-      <motion.div style={{ y, opacity }} className="mx-auto w-full max-w-6xl py-24">
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.1 }}
-          className="mb-8 text-xs font-medium tracking-[0.3em] text-water uppercase"
-        >
-          Literature review · Data centre heat rejection
-        </motion.p>
-        <h1 className="max-w-5xl font-display text-5xl leading-[0.95] font-semibold tracking-tight sm:text-7xl lg:text-8xl">
-          {headline.map((word, i) => (
-            <span key={i} className="inline-block overflow-hidden pb-2 align-bottom">
+      <motion.div style={{ y, opacity }} className="relative flex flex-col items-center gap-9 text-center">
+        <h1 className="t-display m-0">
+          {lines.map((line, i) => (
+            <span key={line} className="-mb-[0.14em] block overflow-hidden pb-[0.14em]">
               <motion.span
-                className={`inline-block ${word === "tap." ? "bg-gradient-to-r from-water to-cyan-200 bg-clip-text text-transparent" : ""}`}
-                initial={{ y: "110%" }}
+                className="block"
+                initial={{ y: "105%" }}
                 animate={{ y: 0 }}
-                transition={{ duration: 1, delay: 0.25 + i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.25, delay: 0.2 + i * 0.12, ease }}
               >
-                {word}
+                {line}
               </motion.span>
-              {i < headline.length - 1 && " "}
             </span>
           ))}
         </h1>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.0 }}
-          className="mt-10 max-w-2xl"
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.25, delay: 0.9, ease }}
+          className="t-label m-0 max-w-[560px] leading-[1.6] text-white/85"
         >
-          <p className="text-lg leading-relaxed text-muted md:text-xl">
-            Optimised warm chilled water cooling with trigger-based adiabatic assist: minimising data centre water
-            impact on constrained community supply.
-          </p>
-          <p className="mt-6 text-sm tracking-wide text-faint">James Gianoutsos</p>
-        </motion.div>
+          Optimised warm chilled water cooling with trigger-based adiabatic assist: minimising data centre water impact
+          on constrained community supply
+        </motion.p>
       </motion.div>
 
-      <motion.a
+      <a
         href="#pressure"
-        aria-label="Scroll to begin"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
-        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-xs tracking-[0.25em] text-muted uppercase"
+        aria-label="Scroll down to begin"
+        className="absolute bottom-6 left-4 block size-[104px] sm:bottom-9 sm:left-8 md:size-[112px]"
       >
-        Scroll
-        <span className="relative block h-10 w-px overflow-hidden bg-line">
-          <motion.span
-            className="absolute inset-x-0 top-0 block h-4 bg-water"
-            animate={{ y: [-16, 40] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </span>
-      </motion.a>
-    </header>
+        <svg viewBox="0 0 112 112" className="badge-spin absolute inset-0 size-full" aria-hidden>
+          <defs>
+            <path id="badge-circle" d="M56,56 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" />
+          </defs>
+          <text fill="currentColor" fontSize="10.5" letterSpacing="3.2">
+            <textPath href="#badge-circle">SCROLL DOWN · SCROLL DOWN · SCROLL DOWN ·</textPath>
+          </text>
+        </svg>
+        <svg viewBox="0 0 112 112" className="absolute inset-0 size-full" aria-hidden>
+          <path d="M56 44 L56 68 M48 60 L56 68 L64 60" fill="none" stroke="currentColor" strokeWidth="1.2" />
+        </svg>
+      </a>
+      <p className="t-caption absolute right-4 bottom-10 m-0 text-white/80 sm:right-8 sm:bottom-12">
+        {chapters.length} chapters · James Gianoutsos
+      </p>
+    </section>
   );
 }

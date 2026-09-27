@@ -71,41 +71,27 @@ export function Layers() {
         </>
       }
     >
-      <div className="relative mt-16 space-y-5">
-        <div
-          aria-hidden
-          className="absolute top-6 bottom-6 left-[1.35rem] w-px bg-gradient-to-b from-line via-line to-water/60 md:left-[1.85rem]"
-        />
+      <div className="mt-20 border-t border-rule">
         {layers.map((l, i) => (
           <motion.article
             key={l.tier}
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.8, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className={`relative grid gap-4 rounded-3xl border p-6 pl-16 md:grid-cols-[14rem_1fr] md:p-8 md:pl-20 ${
-              l.gap ? "border-water/60 bg-water/[0.07]" : "border-line bg-card/50"
+            transition={{ duration: 1.25, delay: i * 0.12, ease: [0.19, 1, 0.22, 1] }}
+            className={`grid gap-5 border-b border-line py-8 md:grid-cols-[200px_minmax(0,1fr)_minmax(0,1.2fr)] md:gap-10 ${
+              l.gap ? "band-dark -mx-4 px-4 sm:-mx-8 sm:px-8 md:mx-0 md:px-6" : ""
             }`}
           >
-            <motion.span
-              aria-hidden
-              className={`absolute top-8 left-4 grid size-6 place-items-center rounded-full border text-[10px] font-semibold md:left-6 ${
-                l.gap ? "border-water bg-water text-bg" : "border-faint bg-bg text-muted"
-              }`}
-              animate={
-                l.gap ? { boxShadow: ["0 0 0 0 rgba(56,189,248,0.6)", "0 0 0 14px rgba(56,189,248,0)"] } : undefined
-              }
-              transition={l.gap ? { duration: 1.8, repeat: Infinity } : undefined}
-            >
-              {i + 1}
-            </motion.span>
+            <p className="t-label m-0">
+              {String(i + 1).padStart(2, "0")} — {l.tier}
+            </p>
             <div>
-              <p className={`text-xs tracking-widest uppercase ${l.gap ? "text-water" : "text-faint"}`}>{l.tier}</p>
-              <h3 className="mt-2 font-display text-2xl leading-tight font-semibold">{l.title}</h3>
-              <p className="mt-3 text-xs text-muted">{l.signal}</p>
-              <p className={`mt-1 text-xs ${l.gap ? "font-semibold text-water" : "text-faint"}`}>{l.who}</p>
+              <h3 className="t-sub m-0">{l.title}</h3>
+              <p className="t-label mt-4 mb-0 text-muted">{l.signal}</p>
+              <p className="t-label mt-1 mb-0">{l.who}</p>
             </div>
-            <p className="leading-relaxed text-muted">{l.body}</p>
+            <p className="m-0 leading-[1.58] text-muted">{l.body}</p>
           </motion.article>
         ))}
       </div>

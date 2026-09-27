@@ -74,8 +74,8 @@ function Step({ progress, s }: { progress: MotionValue<number>; s: (typeof steps
   const y = useTransform(progress, (v) => lerp(v, s.range, yOut));
   return (
     <motion.div style={{ opacity, y }} className="absolute inset-x-0 top-0">
-      <p className="text-xs tracking-[0.25em] text-water uppercase">{s.kicker}</p>
-      <p className="mt-3 font-display text-2xl leading-snug text-ink md:text-3xl">{s.text}</p>
+      <p className="t-label m-0">{s.kicker}</p>
+      <p className="mt-4 mb-0 text-[clamp(22px,2.3vw,30px)] leading-[1.25] font-light tracking-[-0.01em]">{s.text}</p>
     </motion.div>
   );
 }
@@ -104,8 +104,8 @@ export function CrossingChart() {
           <div className="order-2 space-y-8 md:order-1">
             {steps.map((s) => (
               <div key={s.kicker}>
-                <p className="text-xs tracking-[0.25em] text-water uppercase">{s.kicker}</p>
-                <p className="mt-2 text-lg leading-snug text-ink">{s.text}</p>
+                <p className="t-label m-0">{s.kicker}</p>
+                <p className="mt-2 mb-0 text-lg leading-snug">{s.text}</p>
               </div>
             ))}
           </div>
@@ -128,8 +128,8 @@ export function CrossingChart() {
               <motion.rect x={X0} y="0" width={X1 - X0} height="450" style={{ scaleX: reveal, originX: 0 }} />
             </clipPath>
             <linearGradient id="reqFill" x1="0" x2="1">
-              <stop offset="0" stopColor="var(--hot)" stopOpacity="0.15" />
-              <stop offset="1" stopColor="var(--hot)" stopOpacity="0.5" />
+              <stop offset="0" stopColor="var(--hot)" stopOpacity="0.55" />
+              <stop offset="1" stopColor="var(--hot)" stopOpacity="0.95" />
             </linearGradient>
           </defs>
 
@@ -145,24 +145,17 @@ export function CrossingChart() {
 
           {/* Regions revealed by the scan */}
           <g clipPath="url(#scanClip)">
-            <polygon points={`${X0},${ceilY(0)} ${XC},${YC} ${X0},${floorY(0)}`} fill="var(--free)" opacity="0.18" />
+            <polygon points={`${X0},${ceilY(0)} ${XC},${YC} ${X0},${floorY(0)}`} fill="var(--sage)" opacity="0.3" />
             <polygon points={`${XC},${YC} ${X1},${ceilY(1)} ${X1},${floorY(1)}`} fill="url(#reqFill)" />
           </g>
-          <motion.text
-            style={{ opacity: reveal }}
-            x={X0 + 30}
-            y={250}
-            fontSize="15"
-            fill="var(--free)"
-            fontWeight="600"
-          >
+          <motion.text style={{ opacity: reveal }} x={X0 + 30} y={250} fontSize="15" fill="var(--free)">
             free-cooling window
           </motion.text>
           <motion.g style={{ opacity: requiredOpacity }}>
-            <text x={X1 - 12} y={205} textAnchor="end" fontSize="15" fill="var(--hot)" fontWeight="600">
+            <text x={X1 - 12} y={205} textAnchor="end" fontSize="15" fill="var(--ink)">
               mechanical cooling
             </text>
-            <text x={X1 - 12} y={225} textAnchor="end" fontSize="15" fill="var(--hot)" fontWeight="600">
+            <text x={X1 - 12} y={225} textAnchor="end" fontSize="15" fill="var(--ink)">
               required
             </text>
           </motion.g>
@@ -170,7 +163,7 @@ export function CrossingChart() {
           {/* Lines */}
           <motion.path
             d={`M${X0} ${ceilY(0)} L${X1} ${ceilY(1)}`}
-            stroke="var(--water)"
+            stroke="var(--ink)"
             strokeWidth="4"
             strokeLinecap="round"
             fill="none"
@@ -184,7 +177,7 @@ export function CrossingChart() {
             fill="none"
             style={{ pathLength: floorDraw }}
           />
-          <motion.text style={{ opacity: ceilDraw }} x={X0 + 8} y={ceilY(0) - 14} fontSize="14" fill="var(--water)">
+          <motion.text style={{ opacity: ceilDraw }} x={X0 + 8} y={ceilY(0) - 14} fontSize="14" fill="var(--ink)">
             hardware-set supply ceiling
           </motion.text>
           <motion.text style={{ opacity: floorDraw }} x={X0 + 8} y={floorY(0) + 24} fontSize="14" fill="var(--heat)">

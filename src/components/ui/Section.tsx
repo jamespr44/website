@@ -8,35 +8,37 @@ type Props = {
   lede?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
+  /** Black band with inverted tokens. */
+  tone?: "light" | "dark";
 };
 
-/** Standard chapter wrapper: numbered kicker, display headline and optional lede. */
-export function Section({ id, kicker, title, lede, children, className = "" }: Props) {
+/** Chapter wrapper: "01 — Kicker" label in a narrow column, whisper-weight headline and optional lede. */
+export function Section({ id, kicker, title, lede, children, className = "", tone = "light" }: Props) {
   const n = String(chapterIndex(id)).padStart(2, "0");
   return (
     <section
       id={id}
       data-chapter={id}
-      className={`relative px-5 py-28 sm:px-8 md:py-40 md:pl-28 lg:pr-16 ${className}`}
+      className={`relative px-4 py-32 sm:px-8 md:py-[152px] ${tone === "dark" ? "band-dark" : "bg-bg"} ${className}`}
     >
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <p className="mb-5 flex items-center gap-3 text-xs font-medium tracking-[0.25em] text-water uppercase">
-            <span className="tabular-nums">{n}</span>
-            <span className="h-px w-10 bg-water/50" />
-            {kicker}
-          </p>
-        </Reveal>
-        <Reveal delay={0.05}>
-          <h2 className="max-w-4xl font-display text-4xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl">
-            {title}
-          </h2>
-        </Reveal>
-        {lede && (
-          <Reveal delay={0.12}>
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">{lede}</p>
+      <div className="mx-auto max-w-[1078px]">
+        <div className="grid gap-6 md:grid-cols-[200px_minmax(0,1fr)] md:gap-10">
+          <Reveal>
+            <p className="t-label md:mt-4">
+              {n} — {kicker}
+            </p>
           </Reveal>
-        )}
+          <div>
+            <Reveal delay={0.05}>
+              <h2 className="t-whisper m-0">{title}</h2>
+            </Reveal>
+            {lede && (
+              <Reveal delay={0.12}>
+                <p className="mt-10 max-w-[600px] text-lg leading-[1.58] text-muted">{lede}</p>
+              </Reveal>
+            )}
+          </div>
+        </div>
         {children}
       </div>
     </section>
@@ -45,7 +47,5 @@ export function Section({ id, kicker, title, lede, children, className = "" }: P
 
 /** Body paragraph styling shared by chapters. */
 export function Prose({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`max-w-2xl space-y-5 text-base leading-relaxed text-muted md:text-lg ${className}`}>{children}</div>
-  );
+  return <div className={`max-w-[600px] space-y-5 text-lg leading-[1.58] text-inkstone ${className}`}>{children}</div>;
 }

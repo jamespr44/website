@@ -85,6 +85,7 @@ export function Chiller() {
   return (
     <Section
       id="chiller"
+      tone="dark"
       kicker="Mode 2 · Mechanical cooling"
       title={<>When the air isn’t enough: the chiller.</>}
       lede={
@@ -94,7 +95,7 @@ export function Chiller() {
         </>
       }
     >
-      <div ref={ref} className={reduced ? "mt-12" : "relative mt-12 h-[480vh]"}>
+      <div ref={ref} className={reduced ? "mt-16" : "relative mt-16 h-[480vh]"}>
         <div
           className={
             reduced
@@ -107,10 +108,8 @@ export function Chiller() {
               <ol className="space-y-6">
                 {steps.map((st) => (
                   <li key={st.kicker}>
-                    <p className="text-xs tracking-[0.2em] uppercase" style={{ color: st.tone }}>
-                      {st.kicker}
-                    </p>
-                    <p className="mt-1 font-display text-xl font-semibold">{st.title}</p>
+                    <p className="t-label">{st.kicker}</p>
+                    <p className="mt-1 text-xl">{st.title}</p>
                     <p className="mt-2 text-muted">{st.body}</p>
                   </li>
                 ))}
@@ -121,8 +120,8 @@ export function Chiller() {
                   {steps.map((st, i) => (
                     <span
                       key={st.kicker}
-                      className="h-1 flex-1 rounded-full transition-colors duration-500"
-                      style={{ background: i <= step ? st.tone : "rgba(142,163,187,0.2)" }}
+                      className="h-px flex-1 transition-colors duration-500"
+                      style={{ background: i <= step ? "var(--ink)" : "var(--line)" }}
                     />
                   ))}
                 </div>
@@ -133,12 +132,10 @@ export function Chiller() {
                       initial={{ opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -16 }}
-                      transition={{ duration: 0.35 }}
+                      transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
                     >
-                      <p className="text-xs tracking-[0.25em] uppercase" style={{ color: s.tone }}>
-                        {s.kicker}
-                      </p>
-                      <p className="mt-3 font-display text-2xl leading-snug font-semibold md:text-3xl">{s.title}</p>
+                      <p className="t-label">{s.kicker}</p>
+                      <p className="t-sub mt-3">{s.title}</p>
                       <p className="mt-4 leading-relaxed text-muted md:text-lg">{s.body}</p>
                     </motion.div>
                   </AnimatePresence>
@@ -152,17 +149,17 @@ export function Chiller() {
         </div>
       </div>
 
-      <div className="mt-16 grid gap-6 md:grid-cols-2">
-        <Reveal className="rounded-3xl border border-heat/40 bg-heat/[0.06] p-8">
-          <p className="text-xs tracking-widest text-heat uppercase">Why 55 °C matters</p>
+      <div className="mt-24 grid gap-14 md:grid-cols-2 md:gap-10">
+        <Reveal className="border-t border-rule pt-7">
+          <p className="t-label">Why 55 °C matters</p>
           <p className="mt-4 leading-relaxed text-muted">
             A conventional chiller rejects heat at temperatures that need a cooling tower. Leaving the condenser at up
             to 55 °C keeps the rejection side dry, so even Mode 2 uses no evaporative water.
           </p>
           <SourceNote>Carrier (n.d.), AquaEdge 19MV4</SourceNote>
         </Reveal>
-        <Reveal delay={0.1} className="rounded-3xl border border-line bg-card/50 p-8">
-          <p className="text-xs tracking-widest text-muted uppercase">The price: energy</p>
+        <Reveal delay={0.1} className="border-t border-rule pt-7">
+          <p className="t-label">The price: energy</p>
           <p className="mt-4 leading-relaxed text-muted">
             Every hour the chiller runs costs compressor power. The annual chiller energy penalty of a low TCS setpoint
             is severe in hot climates and negligible in cold ones, which is why the hours it must run in Sydney matter.

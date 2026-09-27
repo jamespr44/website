@@ -104,8 +104,8 @@ function Tower({ intensity }: { intensity: number }) {
             count={260}
             rate={0.25 + intensity * 0.75}
             size={2.6}
-            color="#dde6ee"
-            opacity={0.09}
+            color="#8a939b"
+            opacity={0.13}
           />
         </group>
       ))}
@@ -143,7 +143,7 @@ function Tower({ intensity }: { intensity: number }) {
           [totalW / 2 - 0.01, DECK - 0.4, 1.0],
         ]}
         radius={0.16}
-        flow="#f59e0b"
+        flow="#e08a00"
         speed={0.6 + intensity}
       />
       <Pipe
@@ -152,7 +152,7 @@ function Tower({ intensity }: { intensity: number }) {
           [totalW / 2 + 2.2, 0.35, -1.0],
         ]}
         radius={0.16}
-        flow="#38bdf8"
+        flow="#4f9a5c"
         speed={0.6 + intensity}
       />
     </group>

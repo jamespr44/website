@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { flowStripes, softDot } from "./textures";
+import { useStage } from "./stage";
 
 type Vec3 = [number, number, number];
 
@@ -76,6 +77,7 @@ export function Pipe({
   insulated = false,
 }: PipeProps) {
   const reduced = useReducedMotionSafe();
+  const stage = useStage();
   const key = JSON.stringify(points);
   const { geo, flowGeo, length } = useMemo(() => {
     const curve = pipeCurve(points, radius * 3);
@@ -92,15 +94,16 @@ export function Pipe({
     const map = flowStripes().clone();
     map.needsUpdate = true;
     map.repeat.set(length / 0.9, 1);
+    // On a white stage additive light vanishes, so the bands are painted instead.
     return new THREE.MeshBasicMaterial({
       map,
       color: flow,
       transparent: true,
-      opacity: 0.9,
-      ...glowBlend,
+      opacity: stage === "light" ? 1 : 0.9,
+      ...(stage === "light" ? { blending: THREE.NormalBlending } : glowBlend),
       depthWrite: false,
     });
-  }, [length, flow]);
+  }, [length, flow, stage]);
 
   useFrame((_, dt) => {
     // Bands are 0.9 m apart, so this moves them at `speed` m/s from the first point towards the last.
@@ -111,11 +114,11 @@ export function Pipe({
     <group>
       <mesh geometry={geo} castShadow receiveShadow>
         <meshStandardMaterial
-          color={insulated ? "#d9dde2" : color}
+          color={insulated ? (stage === "light" ? "#f4f4f4" : "#d9dde2") : color}
           roughness={insulated ? 0.8 : 0.35}
           metalness={insulated ? 0 : 0.7}
           emissive={active ? flow : "#000"}
-          emissiveIntensity={active ? 0.12 : 0}
+          emissiveIntensity={active && stage === "dark" ? 0.12 : 0}
         />
       </mesh>
       {active && <mesh geometry={flowGeo} material={stripeMat} />}
@@ -218,6 +221,7 @@ type ParticleProps = {
   /** Optional colour at end of life (e.g. hot air cooling). */
   colorEnd?: string;
   opacity?: number;
+  /** Additive glow; defaults to true on a dark stage and false on a light one. */
   additive?: boolean;
 };
 
@@ -230,12 +234,14 @@ export function Particles({
   color = "#ffffff",
   colorEnd,
   opacity = 1,
-  additive = true,
+  additive,
 }: ParticleProps) {
   const reduced = useReducedMotionSafe();
+  const stage = useStage();
+  const glow = additive ?? stage === "dark";
   const state = useMemo(() => {
     const pos = new Float32Array(count * 3);
-    const col = new Float32Array(count * 3);
+    const col = new Float32Array(count * 4); // RGBA: alpha carries the fade
     const vel = new Float32Array(count * 3);
     const age = new Float32Array(count);
     for (let i = 0; i < count; i++) age[i] = -Math.random() * emitter.life; // staggered starts
@@ -245,7 +251,7 @@ export function Particles({
   const geo = useMemo(() => {
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.BufferAttribute(state.pos, 3));
-    g.setAttribute("color", new THREE.BufferAttribute(state.col, 3));
+    g.setAttribute("color", new THREE.BufferAttribute(state.col, 4));
     return g;
   }, [state]);
 
@@ -283,8 +289,9 @@ export function Particles({
         }
       }
       const t = state.age[i] / life;
+      const a = i * 4;
       if (i >= alive || state.age[i] < 0) {
-        state.col[k] = state.col[k + 1] = state.col[k + 2] = 0;
+        state.col[a + 3] = 0;
         continue;
       }
       state.vel[k + 1] -= gravity * dt;
@@ -293,11 +300,11 @@ export function Particles({
       state.pos[k] += state.vel[k] * dt;
       state.pos[k + 1] += state.vel[k + 1] * dt;
       state.pos[k + 2] += state.vel[k + 2] * dt;
-      const fade = Math.sin(Math.PI * t) * opacity;
-      tmp.copy(c0).lerp(c1, t).multiplyScalar(fade);
-      state.col[k] = tmp.r;
-      state.col[k + 1] = tmp.g;
-      state.col[k + 2] = tmp.b;
+      tmp.copy(c0).lerp(c1, t);
+      state.col[a] = tmp.r;
+      state.col[a + 1] = tmp.g;
+      state.col[a + 2] = tmp.b;
+      state.col[a + 3] = Math.sin(Math.PI * t) * opacity;
     }
     geo.attributes.position.needsUpdate = true;
     geo.attributes.color.needsUpdate = true;
@@ -312,7 +319,7 @@ export function Particles({
         vertexColors
         transparent
         depthWrite={false}
-        {...(additive ? glowBlend : { blending: THREE.NormalBlending })}
+        {...(glow ? glowBlend : { blending: THREE.NormalBlending })}
       />
     </points>
   );

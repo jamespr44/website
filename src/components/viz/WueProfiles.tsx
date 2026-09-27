@@ -33,40 +33,21 @@ export function WueProfiles() {
   const yOf = (v: number) => pad.t + (1 - v / MAX) * (H - pad.t - pad.b);
 
   return (
-    <div className="rounded-3xl border border-line bg-card/60 p-6 md:p-8">
+    <div className="border-t border-rule pt-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div
-          role="radiogroup"
-          aria-label="Facility draw profile"
-          className="inline-flex rounded-full border border-line bg-bg/60 p-1 text-sm"
-        >
+        <div role="radiogroup" aria-label="Facility draw profile" className="pill-group">
           {(
             [
               ["steady", "Facility A · steady"],
               ["peaked", "Facility B · heatwave-peaked"],
             ] as const
           ).map(([key, label]) => (
-            <button
-              key={key}
-              role="radio"
-              aria-checked={profile === key}
-              onClick={() => setProfile(key)}
-              className={`relative rounded-full px-4 py-2 transition-colors ${profile === key ? "text-bg" : "text-muted hover:text-ink"}`}
-            >
-              {profile === key && (
-                <motion.span
-                  layoutId="wue-pill"
-                  className="absolute inset-0 rounded-full bg-ink"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
-                />
-              )}
-              <span className="relative">{label}</span>
+            <button key={key} type="button" role="radio" aria-checked={profile === key} onClick={() => setProfile(key)}>
+              {label}
             </button>
           ))}
         </div>
-        <span className="rounded-full border border-water/40 bg-water/10 px-3 py-1 text-xs text-water">
-          Annual WUE: identical
-        </span>
+        <span className="t-caption rounded-[75px] border border-rule px-3.5 py-1.5">Annual WUE: identical</span>
       </div>
 
       <div ref={box} className="mt-6">
@@ -83,9 +64,9 @@ export function WueProfiles() {
                 <motion.rect
                   x={pad.l + i * bw + bw * 0.18}
                   width={bw * 0.64}
-                  rx={4}
+                  rx={0}
                   initial={false}
-                  animate={{ y: yOf(v), height: H - pad.b - yOf(v), fill: over ? "var(--hot)" : "var(--water)" }}
+                  animate={{ y: yOf(v), height: H - pad.b - yOf(v), fill: over ? "var(--hot)" : "var(--muted)" }}
                   transition={{ type: "spring", stiffness: 120, damping: 18, delay: i * 0.03 }}
                   opacity={0.9}
                 />

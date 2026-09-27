@@ -11,18 +11,9 @@ import { figures } from "@/content/chapters";
 const largest = figures.requestMLPerDay.high / figures.requestVsLargestCustomer; // implied ≈ 2 ML/day
 
 const bars = [
-  {
-    label: "Largest existing single customer",
-    value: largest,
-    note: "implied: 1/20 of the upper request",
-    tone: "bg-muted/60",
-  },
-  { label: "Smallest data centre request", value: figures.requestMLPerDay.low, tone: "bg-water/70" },
-  {
-    label: "Largest data centre request",
-    value: figures.requestMLPerDay.high,
-    tone: "bg-gradient-to-r from-water via-heat to-hot",
-  },
+  { label: "Largest existing customer", value: largest, tone: "bg-muted" },
+  { label: "Smallest data centre request", value: figures.requestMLPerDay.low, tone: "bg-ink" },
+  { label: "Largest data centre request", value: figures.requestMLPerDay.high, tone: "bg-ink" },
 ];
 
 export function Pressure() {
@@ -39,68 +30,72 @@ export function Pressure() {
         </>
       }
     >
-      <div className="mt-20 grid gap-12 md:grid-cols-3">
-        <Reveal className="border-t border-line pt-6">
-          <p className="font-display text-6xl font-semibold text-water md:text-7xl">
+      <div className="mt-24 grid gap-14 md:grid-cols-3 md:gap-10">
+        <Reveal className="flex flex-col gap-7 border-t border-rule pt-7">
+          <p className="t-stat m-0">
             <Counter value={figures.requestMLPerDay.low} />–<Counter value={figures.requestMLPerDay.high} />
           </p>
-          <p className="mt-3 text-muted">
+          <p className="m-0 max-w-[280px] leading-normal">
             <Term k="ML" /> per day sought by individual data centre applications to Australian water utilities.
           </p>
         </Reveal>
-        <Reveal delay={0.1} className="border-t border-line pt-6">
-          <p className="font-display text-6xl font-semibold text-heat md:text-7xl">
+        <Reveal delay={0.1} className="flex flex-col gap-7 border-t border-rule pt-7">
+          <p className="t-stat m-0">
             ~<Counter value={figures.requestVsLargestCustomer} suffix="×" />
           </p>
-          <p className="mt-3 text-muted">
+          <p className="m-0 max-w-[280px] leading-normal">
             The upper request compared with the draw of the largest existing single customer.
           </p>
         </Reveal>
-        <Reveal delay={0.2} className="border-t border-line pt-6">
-          <p className="font-display text-6xl font-semibold text-ink md:text-7xl">
+        <Reveal delay={0.2} className="flex flex-col gap-7 border-t border-rule pt-7">
+          <p className="t-stat m-0">
             <Counter value={figures.requestMLPerDay.high / figures.olympicPoolML} />
           </p>
-          <p className="mt-3 text-muted">Olympic pools a day, at 40 ML/day.</p>
+          <p className="m-0 max-w-[280px] leading-normal">Olympic pools a day, at 40 ML/day.</p>
         </Reveal>
       </div>
       <SourceNote>
         Han et al. (2026); International Energy Agency (2025); Mytton (2021); Siddik et al. (2021); ASHRAE (2020)
       </SourceNote>
 
-      <div className="mt-20 rounded-3xl border border-line bg-card/60 p-6 md:p-10">
-        <p className="mb-8 text-sm tracking-wide text-muted">Daily water demand, ML/day</p>
-        <div className="space-y-7">
+      <div className="mt-24">
+        <p className="t-label m-0 flex justify-between border-b border-line pb-3">
+          <span>Daily water demand</span>
+          <span className="text-muted">ML / day</span>
+        </p>
+        <div className="mt-7 space-y-6">
           {bars.map((b, i) => (
-            <div key={b.label}>
-              <div className="mb-2 flex items-baseline justify-between gap-4 text-sm">
-                <span className="text-ink">
-                  {b.label}
-                  {b.note && <span className="ml-2 text-xs text-faint">({b.note})</span>}
-                </span>
-                <span className="font-semibold tabular-nums">{b.value} ML</span>
-              </div>
-              <div className="h-4 overflow-hidden rounded-full bg-white/5">
+            <div
+              key={b.label}
+              className="grid grid-cols-[minmax(0,1fr)_48px] items-center gap-x-6 gap-y-2 md:grid-cols-[280px_minmax(0,1fr)_60px]"
+            >
+              <span className="col-span-2 md:col-span-1">{b.label}</span>
+              <div className="h-3.5 bg-track">
                 <motion.div
-                  className={`h-full origin-left rounded-full ${b.tone}`}
+                  className={`h-full origin-left ${b.tone}`}
                   style={{ width: `${(b.value / figures.requestMLPerDay.high) * 100}%` }}
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true, amount: 0.8 }}
-                  transition={{ duration: 1.4, delay: 0.2 + i * 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 1.25, delay: 0.15 + i * 0.2, ease: [0.19, 1, 0.22, 1] }}
                 />
               </div>
+              <span className="text-right tabular-nums">{b.value}</span>
             </div>
           ))}
         </div>
-        <SourceNote>Water Services Association of Australia (2025)</SourceNote>
+        <SourceNote>
+          Water Services Association of Australia (2025). The largest-customer figure is implied: 1/20 of the upper
+          request.
+        </SourceNote>
       </div>
 
-      <div className="mt-20 grid gap-12 md:grid-cols-2 md:items-center">
+      <div className="mt-24 grid gap-12 border-t border-rule pt-10 md:grid-cols-2 md:gap-16">
         <Reveal>
-          <blockquote className="border-l-2 border-heat pl-6 font-display text-2xl leading-snug text-ink md:text-3xl">
+          <blockquote className="m-0 text-[clamp(28px,3.6vw,45px)] leading-[1.15] font-light tracking-[-0.01em]">
             “Current water plans do not and cannot account for them.”
           </blockquote>
-          <p className="mt-4 pl-6 text-sm text-faint">Water Services Association of Australia, 2025</p>
+          <p className="t-caption mt-5 text-faint">Water Services Association of Australia, 2025</p>
         </Reveal>
         <Reveal delay={0.1}>
           <Prose>
@@ -110,9 +105,12 @@ export function Pressure() {
             </p>
             <p>
               Evaporative cooling towers are the conventional way to reject that heat. They consume water{" "}
-              <em className="text-ink">by thermodynamic necessity</em>, not through poor design.
+              <em>by thermodynamic necessity</em>, not through poor design.
             </p>
           </Prose>
+          <a href="#evaporation" className="pill mt-8">
+            Why towers drink
+          </a>
         </Reveal>
       </div>
     </Section>

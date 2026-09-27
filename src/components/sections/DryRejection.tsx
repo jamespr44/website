@@ -21,22 +21,22 @@ export function DryRejection() {
         </>
       }
     >
-      <div className="mt-16 grid gap-6 sm:grid-cols-2">
-        <Reveal className="rounded-3xl border border-water/40 bg-water/[0.06] p-8">
-          <p className="text-xs tracking-widest text-water uppercase">Water</p>
-          <p className="mt-3 font-display text-7xl font-semibold text-water">
+      <div className="mt-16 grid gap-14 sm:grid-cols-2 sm:gap-10">
+        <Reveal className="border-t border-rule pt-7">
+          <p className="t-label">Water</p>
+          <p className="t-stat mt-6">
             −<Counter value={figures.karimiWueDropPct} suffix="%" />
           </p>
-          <p className="mt-3 text-muted">
+          <p className="mt-7 text-muted">
             Measured <Term k="WUE" /> of a chiller-less warm-water plant compared with conventional evaporative plant.
           </p>
         </Reveal>
-        <Reveal delay={0.1} className="rounded-3xl border border-heat/40 bg-heat/[0.06] p-8">
-          <p className="text-xs tracking-widest text-heat uppercase">Energy</p>
-          <p className="mt-3 font-display text-7xl font-semibold text-heat">
+        <Reveal delay={0.1} className="border-t border-rule pt-7">
+          <p className="t-label">Energy</p>
+          <p className="t-stat mt-6">
             +<Counter value={figures.karimiPueRisePct} suffix="%" />
           </p>
-          <p className="mt-3 text-muted">
+          <p className="mt-7 text-muted">
             The price paid: roughly 13% higher <Term k="PUE" />.
           </p>
         </Reveal>
@@ -46,9 +46,9 @@ export function DryRejection() {
       <Reveal className="mt-24">
         <Prose>
           <p>
-            <span className="text-ink">The limiting factor is climate.</span> Across forty-five years of observations,
-            the hours in which combined heat and humidity constrain <Term k="freeCooling" /> have risen significantly,
-            and they are projected to keep expanding through mid-century.
+            <span>The limiting factor is climate.</span> Across forty-five years of observations, the hours in which
+            combined heat and humidity constrain <Term k="freeCooling" /> have risen significantly, and they are
+            projected to keep expanding through mid-century.
           </p>
           <p>
             That analysis concerns air-side economisation, but the mechanism is the same for water-side rejection:

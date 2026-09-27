@@ -22,15 +22,15 @@ export function Hardware() {
       }
     >
       <div className="mt-16 grid items-center gap-12 md:grid-cols-[1.1fr_0.9fr]">
-        <Reveal className="rounded-3xl border border-line bg-card/60 p-6 md:p-8">
+        <Reveal className="border-t border-rule pt-7">
           <TdpTrend />
           <SourceNote>Shape after Vertiv &amp; Open Compute Project (2026). Indicative, not to scale</SourceNote>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="font-display text-8xl font-semibold text-water">
+          <p className="t-stat mt-6">
             <Counter value={figures.tcsSetpointC} /> °C
           </p>
-          <p className="mt-3 text-muted">
+          <p className="mt-7 text-muted">
             The durable coolant target that silicon and system vendors have converged on. Next-generation accelerators
             need cooler fluid than many current facility designs assume.
           </p>
@@ -44,26 +44,24 @@ export function Hardware() {
 
       <div className="mt-24">
         <Reveal>
-          <h3 className="max-w-2xl font-display text-3xl font-semibold">
-            Running warmer isn’t free on the IT side either.
-          </h3>
+          <h3 className="t-sub max-w-2xl">Running warmer isn’t free on the IT side either.</h3>
         </Reveal>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2">
-          <Reveal className="rounded-3xl border border-line bg-card/40 p-8">
-            <p className="font-display text-6xl font-semibold text-heat">
+        <div className="mt-10 grid gap-14 sm:grid-cols-2 sm:gap-10">
+          <Reveal className="border-t border-rule pt-7">
+            <p className="t-stat mt-6">
               +<Counter value={figures.gheniItPowerPct} decimals={2} suffix="%" />
             </p>
-            <p className="mt-3 text-muted">
+            <p className="mt-7 text-muted">
               IT power across an {figures.gheniDeltaK} K rise in <Term k="TCS" /> temperature, measured on an
               operational direct liquid-cooled system.
             </p>
             <SourceNote>Gheni et al. (2026)</SourceNote>
           </Reveal>
-          <Reveal delay={0.1} className="rounded-3xl border border-line bg-card/40 p-8">
-            <p className="font-display text-6xl font-semibold text-heat">
+          <Reveal delay={0.1} className="border-t border-rule pt-7">
+            <p className="t-stat mt-6">
               +<Counter value={figures.stahlhutPowerPct} decimals={1} suffix="%" />
             </p>
-            <p className="mt-3 text-muted">Additional server power as coolant rises from 30 to 50 °C.</p>
+            <p className="mt-7 text-muted">Additional server power as coolant rises from 30 to 50 °C.</p>
             <SourceNote>Stahlhut et al. (2025)</SourceNote>
           </Reveal>
         </div>

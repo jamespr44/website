@@ -15,6 +15,18 @@ Charts are hand-built SVG.
 
 The 3D bundles load lazily when a scene nears the viewport, and each canvas pauses when off-screen.
 
+## Design
+
+Editorial monochrome: black, white and grey type on square corners, with 75px pills as the only rounded shape and
+no shadows. Colour appears in only two places:
+
+- the hero's iridescent WebGL backdrop (`src/components/ui/IridescentBackdrop.tsx`);
+- charts and 3D scenes, using the same three hues: sage for free cooling and water saved, amber for heat, and
+  oxblood for mechanical cooling, 55 °C water and breaches.
+
+Every colour is a CSS token in `src/app/globals.css`. `.band-dark` swaps the tokens for black sections, so a site-wide
+dark mode is mostly a matter of applying the same swap at the root.
+
 ## Running locally
 
 ```bash

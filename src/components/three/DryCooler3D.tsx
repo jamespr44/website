@@ -110,7 +110,7 @@ export function DryCoolerModel({
             ]}
             radius={0.05}
             color="#3c4a58"
-            flow="#7dd3fc"
+            flow="#5f6b75"
             active={spray}
             speed={1.2}
           />
@@ -130,7 +130,7 @@ export function DryCoolerModel({
             count={Math.round(length * 70)}
             rate={spray ? 1 : 0}
             size={0.42}
-            color="#c7ecff"
+            color="#7b8a96"
             opacity={0.22}
           />
         </group>
@@ -147,7 +147,7 @@ export function DryCoolerModel({
               [-length / 2 - 0.03, 1.9, 0.45],
             ]}
             radius={0.1}
-            flow="#f59e0b"
+            flow="#e08a00"
           />
           <Pipe
             points={[
@@ -157,7 +157,7 @@ export function DryCoolerModel({
               [-length / 2 - 1.8, 0.3, -0.45],
             ]}
             radius={0.1}
-            flow="#38bdf8"
+            flow="#4f9a5c"
           />
         </>
       )}
@@ -181,8 +181,8 @@ function Airflow({ spray }: { spray: boolean }) {
           }}
           count={160}
           size={0.2}
-          color="#f97316"
-          colorEnd={spray ? "#22d3ee" : "#f59e0b"}
+          color="#e08a00"
+          colorEnd={spray ? "#4f9a5c" : "#e08a00"}
           opacity={0.9}
         />
       ))}
@@ -196,7 +196,7 @@ function Airflow({ spray }: { spray: boolean }) {
         }}
         count={90}
         size={0.22}
-        color={spray ? "#fbbf24" : "#f97316"}
+        color={spray ? "#9a9a9a" : "#e08a00"}
         opacity={0.35}
       />
     </>

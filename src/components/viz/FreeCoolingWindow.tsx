@@ -52,17 +52,15 @@ export function FreeCoolingWindow() {
       <div className={`flex flex-col justify-center py-16 ${reduced ? "" : "sticky top-0 h-svh"}`}>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs tracking-widest text-faint uppercase">
-              Hours when heat and humidity constrain free cooling
-            </p>
-            <p className="mt-2 font-display text-6xl font-semibold tabular-nums md:text-7xl">{year}</p>
+            <p className="t-label m-0">Hours when heat and humidity constrain free cooling</p>
+            <p className="t-stat mt-4 mb-0">{year}</p>
           </div>
-          <div className="flex gap-4 text-xs text-muted">
+          <div className="t-caption flex gap-4 text-muted">
             <span className="flex items-center gap-2">
-              <span className="size-3 rounded-sm bg-free/70" /> free cooling available
+              <span className="size-3 bg-sage" /> free cooling available
             </span>
             <span className="flex items-center gap-2">
-              <span className="size-3 rounded-sm bg-heat" /> constrained
+              <span className="size-3 bg-amber" /> constrained
             </span>
           </div>
         </div>
@@ -84,8 +82,8 @@ export function FreeCoolingWindow() {
                 width={cw - 2}
                 height={ch - 2}
                 rx={1.5}
-                fill={c ? "var(--heat)" : "var(--free)"}
-                opacity={c ? 0.95 : 0.28}
+                fill={c ? "var(--amber)" : "var(--sage)"}
+                opacity={c ? 1 : 0.55}
                 style={{ transition: "fill 0.4s, opacity 0.4s" }}
               />
             );

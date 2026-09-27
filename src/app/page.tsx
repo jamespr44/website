@@ -1,4 +1,4 @@
-import { ProgressRail } from "@/components/ui/ProgressRail";
+import { Header } from "@/components/ui/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Pressure } from "@/components/sections/Pressure";
 import { Evaporation } from "@/components/sections/Evaporation";
@@ -16,7 +16,7 @@ import { Now } from "@/components/sections/Now";
 export default function Home() {
   return (
     <>
-      <ProgressRail />
+      <Header />
       <main>
         <Hero />
         <Pressure />

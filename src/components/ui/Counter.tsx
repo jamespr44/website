@@ -26,7 +26,7 @@ export function Counter({ value, decimals = 0, prefix = "", suffix = "", duratio
     if (!el || !inView || reduced) return;
     const controls = animate(0, value, {
       duration,
-      ease: [0.16, 1, 0.3, 1],
+      ease: [0.19, 1, 0.22, 1],
       onUpdate: (v) => (el.textContent = `${prefix}${format(v, decimals)}${suffix}`),
     });
     return () => controls.stop();

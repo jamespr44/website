@@ -8,6 +8,7 @@ export function Crossing() {
   return (
     <Section
       id="crossing"
+      tone="dark"
       kicker="Where the lines cross"
       title={<>Two trends, heading for each other.</>}
       lede={<>The climate is raising the floor. The hardware is lowering the ceiling. Keep scrolling.</>}

@@ -41,7 +41,7 @@ const rows: { who: string; note: string; marks: Mark[]; self?: boolean }[] = [
   },
 ];
 
-function Cell({ m, delay, self }: { m: Mark; delay: number; self?: boolean }) {
+function Cell({ m, delay }: { m: Mark; delay: number }) {
   const label = m === "yes" ? "Addressed" : m === "part" ? "Partly addressed" : "Not addressed";
   return (
     <motion.span
@@ -52,14 +52,8 @@ function Cell({ m, delay, self }: { m: Mark; delay: number; self?: boolean }) {
       whileInView={{ scale: 1, opacity: 1 }}
       viewport={{ once: true, amount: 0.8 }}
       transition={{ type: "spring", stiffness: 260, damping: 18, delay }}
-      className={`grid size-8 place-items-center rounded-full text-sm font-bold ${
-        m === "yes"
-          ? self
-            ? "bg-water text-bg shadow-[0_0_24px_rgba(56,189,248,0.6)]"
-            : "bg-free/80 text-bg"
-          : m === "part"
-            ? "border border-heat/70 text-heat"
-            : "border border-line text-faint"
+      className={`grid size-7 place-items-center rounded-full text-[13px] ${
+        m === "yes" ? "bg-ink text-bg" : m === "part" ? "border border-rule text-ink" : "text-faint"
       }`}
     >
       {m === "yes" ? "✓" : m === "part" ? "◐" : "–"}
@@ -69,16 +63,16 @@ function Cell({ m, delay, self }: { m: Mark; delay: number; self?: boolean }) {
 
 export function GapMatrix() {
   return (
-    <div className="-mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0">
-      <table className="w-full min-w-[720px] border-separate border-spacing-y-2 text-left">
+    <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+      <table className="w-full min-w-[720px] border-collapse text-left">
         <caption className="sr-only">Prior work against the criteria the design study requires</caption>
         <thead>
-          <tr>
-            <th scope="col" className="w-64 pb-4 text-xs font-medium tracking-widest text-faint uppercase">
+          <tr className="border-b border-rule">
+            <th scope="col" className="t-label w-64 pb-4 font-normal">
               Work
             </th>
             {criteria.map((c) => (
-              <th key={c} scope="col" className="px-2 pb-4 text-center text-xs leading-snug font-medium text-muted">
+              <th key={c} scope="col" className="t-label px-2 pb-4 text-center font-normal text-muted">
                 {c}
               </th>
             ))}
@@ -91,25 +85,17 @@ export function GapMatrix() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.8 }}
-              transition={{ duration: 0.6, delay: ri * 0.08 }}
-              className={r.self ? "bg-water/[0.08]" : "bg-card/50"}
+              transition={{ duration: 1, delay: ri * 0.08, ease: [0.19, 1, 0.22, 1] }}
+              className={r.self ? "band-dark" : "border-b border-line"}
             >
-              <th
-                scope="row"
-                className={`rounded-l-2xl py-4 pr-4 pl-5 align-top font-normal ${r.self ? "border-y border-l border-water/50" : ""}`}
-              >
-                <span className={`block font-semibold ${r.self ? "text-water" : "text-ink"}`}>{r.who}</span>
-                <span className="mt-1 block text-xs leading-snug text-faint">{r.note}</span>
+              <th scope="row" className="py-5 pr-4 pl-3 align-top font-normal">
+                <span className="block">{r.who}</span>
+                <span className="t-caption mt-1 block text-muted">{r.note}</span>
               </th>
               {r.marks.map((m, ci) => (
-                <td
-                  key={ci}
-                  className={`px-2 py-4 text-center align-middle ${ci === r.marks.length - 1 ? "rounded-r-2xl" : ""} ${
-                    r.self ? `border-y border-water/50 ${ci === r.marks.length - 1 ? "border-r" : ""}` : ""
-                  }`}
-                >
+                <td key={ci} className="px-2 py-5 text-center align-middle">
                   <span className="inline-grid">
-                    <Cell m={m} self={r.self} delay={0.2 + ri * 0.08 + ci * 0.06} />
+                    <Cell m={m} delay={0.2 + ri * 0.08 + ci * 0.06} />
                   </span>
                 </td>
               ))}

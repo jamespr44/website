@@ -40,10 +40,18 @@ function Pipe({ d, active, color }: { d: string; active: boolean; color: string 
 function Fan({ cx, cy }: { cx: number; cy: number }) {
   return (
     <g>
-      <circle cx={cx} cy={cy} r="22" fill="#0a1422" stroke="#3b5270" />
+      <circle cx={cx} cy={cy} r="22" fill="var(--bg)" stroke="var(--ink)" />
       <g className="fan-spin">
         {[0, 120, 240].map((a) => (
-          <ellipse key={a} cx={cx} cy={cy - 10} rx="5" ry="11" fill="#5b7390" transform={`rotate(${a} ${cx} ${cy})`} />
+          <ellipse
+            key={a}
+            cx={cx}
+            cy={cy - 10}
+            rx="5"
+            ry="11"
+            fill="var(--muted)"
+            transform={`rotate(${a} ${cx} ${cy})`}
+          />
         ))}
       </g>
       <circle cx={cx} cy={cy} r="3" fill="var(--ink)" />
@@ -86,7 +94,7 @@ export function PlantSchematic({ state }: { state: PlantState }) {
                 fillOpacity="0.15"
                 stroke="var(--hot)"
               />
-              <text x="81" y="4" textAnchor="middle" fontSize="11" fill="var(--hot)" fontWeight="600">
+              <text x="81" y="4" textAnchor="middle" fontSize="11" fill="var(--hot)" fontWeight="400">
                 gate closed
               </text>
             </motion.g>
@@ -116,17 +124,17 @@ export function PlantSchematic({ state }: { state: PlantState }) {
         width="220"
         height="150"
         rx="12"
-        fill="#101d31"
-        stroke={state.dryCoolers ? "var(--free)" : "#3b5270"}
+        fill="var(--bg-raised)"
+        stroke={state.dryCoolers ? "var(--free)" : "var(--ink)"}
         strokeOpacity="0.7"
       />
       {Array.from({ length: 9 }, (_, i) => (
-        <line key={i} x1="652" x2="848" y1={218 + i * 8} y2={218 + i * 8} stroke="#2c4260" strokeWidth="1.5" />
+        <line key={i} x1="652" x2="848" y1={218 + i * 8} y2={218 + i * 8} stroke="var(--line)" strokeWidth="1.5" />
       ))}
       <Fan cx={690} cy={182} />
       <Fan cx={750} cy={182} />
       <Fan cx={810} cy={182} />
-      <text x="750" y="322" textAnchor="middle" fontSize="13" fill="var(--free)" fontWeight="600">
+      <text x="750" y="322" textAnchor="middle" fontSize="13" fill="var(--free)" fontWeight="400">
         Dry coolers
       </text>
       <text x="750" y="338" textAnchor="middle" fontSize="11" fill="var(--muted)">
@@ -154,14 +162,14 @@ export function PlantSchematic({ state }: { state: PlantState }) {
       )}
 
       {/* Rack / IT load */}
-      <rect x="30" y="140" width="140" height="180" rx="10" fill="#101d31" stroke="#3b5270" />
+      <rect x="30" y="140" width="140" height="180" rx="10" fill="var(--bg-raised)" stroke="var(--ink)" />
       {Array.from({ length: 8 }, (_, i) => (
         <g key={i}>
-          <rect x="44" y={154 + i * 20} width="112" height="13" rx="3" fill="#18283f" />
+          <rect x="44" y={154 + i * 20} width="112" height="13" rx="3" fill="var(--track)" />
           <circle cx="146" cy={160.5 + i * 20} r="2" fill={i % 3 === 0 ? "var(--free)" : "var(--water)"} />
         </g>
       ))}
-      <text x="100" y="112" textAnchor="middle" fontSize="13" fill="var(--ink)" fontWeight="600">
+      <text x="100" y="112" textAnchor="middle" fontSize="13" fill="var(--ink)" fontWeight="400">
         IT load
       </text>
       <text x="100" y="128" textAnchor="middle" fontSize="11" fill="var(--muted)">
@@ -190,14 +198,14 @@ export function PlantSchematic({ state }: { state: PlantState }) {
         width="180"
         height="96"
         rx="12"
-        fill={chiller ? "rgba(245,158,11,0.12)" : "#101d31"}
-        stroke={chiller ? "var(--heat)" : "#3b5270"}
+        fill={chiller ? "var(--track)" : "var(--bg-raised)"}
+        stroke={chiller ? "var(--heat)" : "var(--ink)"}
         style={{ transition: "fill 0.4s, stroke 0.4s" }}
       />
       <g transform="translate(372 274)">
-        <circle r="16" fill="#0a1422" stroke={chiller ? "var(--heat)" : "#3b5270"} />
+        <circle r="16" fill="var(--bg)" stroke={chiller ? "var(--heat)" : "var(--ink)"} />
         <g className={chiller ? "fan-spin" : ""}>
-          <path d="M0 -10 L3 0 L0 10 L-3 0 Z" fill={chiller ? "var(--heat)" : "#3b5270"} />
+          <path d="M0 -10 L3 0 L0 10 L-3 0 Z" fill={chiller ? "var(--heat)" : "var(--ink)"} />
         </g>
       </g>
       <text
@@ -206,7 +214,7 @@ export function PlantSchematic({ state }: { state: PlantState }) {
         textAnchor="middle"
         fontSize="13"
         fill={chiller ? "var(--heat)" : "var(--muted)"}
-        fontWeight="600"
+        fontWeight="400"
       >
         High-temp
       </text>
@@ -216,7 +224,7 @@ export function PlantSchematic({ state }: { state: PlantState }) {
         textAnchor="middle"
         fontSize="13"
         fill={chiller ? "var(--heat)" : "var(--muted)"}
-        fontWeight="600"
+        fontWeight="400"
       >
         chiller
       </text>

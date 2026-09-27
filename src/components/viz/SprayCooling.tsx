@@ -37,28 +37,32 @@ export function SprayCooling() {
   const air = useAnimatedNumber(on ? AMBIENT - figures.yangAirDropK : AMBIENT);
 
   return (
-    <div className="rounded-3xl border border-line bg-card/60 p-6 md:p-8">
+    <div className="border-t border-rule pt-7">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <button
           type="button"
           role="switch"
           aria-checked={on}
           onClick={() => setOn((o) => !o)}
-          className="flex items-center gap-3 rounded-full border border-line bg-bg/60 py-2 pr-5 pl-2 text-sm"
+          className={`pill ${on ? "bg-ink text-bg" : ""}`}
         >
-          <span className={`relative h-6 w-11 rounded-full transition-colors ${on ? "bg-water" : "bg-faint/50"}`}>
-            <motion.span layout className={`absolute top-1 size-4 rounded-full bg-ink ${on ? "right-1" : "left-1"}`} />
+          <span className="relative h-[14px] w-[26px] rounded-[75px] border border-current">
+            <motion.span
+              layout
+              transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
+              className={`absolute top-[2px] size-2 rounded-full bg-current ${on ? "right-[2px]" : "left-[2px]"}`}
+            />
           </span>
           Adiabatic pre-cooling {on ? "on" : "off"}
         </button>
-        <p className="text-xs text-faint">Example ambient: {AMBIENT} °C, humid-hot afternoon</p>
+        <p className="t-caption m-0 text-faint">Example ambient: {AMBIENT} °C, humid-hot afternoon</p>
       </div>
 
       <div className="relative -mx-2 mt-4 md:-mx-4">
         <DryCooler3D spray={on} />
-        <div className="pointer-events-none absolute top-3 left-3 rounded-xl border border-line bg-bg/70 px-3 py-2 text-xs backdrop-blur">
+        <div className="t-label pointer-events-none absolute top-3 left-3 bg-bg px-3 py-2">
           <span className="text-faint">Air entering coil</span>{" "}
-          <span className={`font-semibold tabular-nums ${on ? "text-water" : "text-heat"}`}>{air.toFixed(1)} °C</span>
+          <span className="tabular-nums">{air.toFixed(1)} °C</span>
         </div>
         <p className="pointer-events-none absolute right-3 bottom-3 hidden text-[11px] text-faint md:block">
           Drag to orbit
@@ -67,24 +71,18 @@ export function SprayCooling() {
 
       <div className="mt-6 grid gap-6 sm:grid-cols-3">
         <div>
-          <p className="text-xs tracking-widest text-faint uppercase">Entering air</p>
-          <p className={`mt-1 font-display text-4xl font-semibold tabular-nums ${on ? "text-water" : "text-heat"}`}>
-            {air.toFixed(1)} °C
-          </p>
+          <p className="t-label text-faint">Entering air</p>
+          <p className="t-sub mt-1 tabular-nums">{air.toFixed(1)} °C</p>
           <p className="text-xs text-faint">up to −{figures.yangAirDropK} K with spray</p>
         </div>
         <div>
-          <p className="text-xs tracking-widest text-faint uppercase">Condensing temp.</p>
-          <p className="mt-1 font-display text-4xl font-semibold tabular-nums text-ink">
-            {on ? `−${figures.yangCondensingDropK}` : "0.0"} K
-          </p>
+          <p className="t-label text-faint">Condensing temp.</p>
+          <p className="t-sub mt-1 tabular-nums">{on ? `−${figures.yangCondensingDropK}` : "0.0"} K</p>
           <p className="text-xs text-faint">reduction, up to {figures.yangCondensingDropK} K</p>
         </div>
         <div>
-          <p className="text-xs tracking-widest text-faint uppercase">Mist approach</p>
-          <p className="mt-1 font-display text-4xl font-semibold tabular-nums text-ink">
-            {figures.yangMistApproachK} K
-          </p>
+          <p className="t-label text-faint">Mist approach</p>
+          <p className="t-sub mt-1 tabular-nums">{figures.yangMistApproachK} K</p>
           <p className="text-xs text-faint">to wet-bulb, at best</p>
         </div>
       </div>

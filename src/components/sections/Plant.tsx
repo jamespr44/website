@@ -24,29 +24,20 @@ const modes = [
     title: "Dry coolers + water-side free cooling",
     body: "The chiller is bypassed whenever ambient conditions let the dry coolers hold the supply setpoint unaided.",
     active: (s: ReturnType<typeof selectMode>) => !s.chiller,
-    tone: "free",
   },
   {
     n: 2,
     title: "High-temperature chiller",
     body: "Mechanical cooling only when free cooling can’t hold the setpoint, e.g. Carrier 19MV4 with leaving condenser water to 55 °C.",
     active: (s: ReturnType<typeof selectMode>) => s.chiller,
-    tone: "heat",
   },
   {
     n: 3,
     title: "Gated adiabatic pre-cooling",
     body: "A third mode, gated on the state of the local water system rather than only on the plant’s needs.",
     active: (s: ReturnType<typeof selectMode>) => s.adiabatic,
-    tone: "water",
   },
 ] as const;
-
-const toneClass = {
-  free: "border-free/60 bg-free/[0.08] text-free",
-  heat: "border-heat/60 bg-heat/[0.08] text-heat",
-  water: "border-water/60 bg-water/[0.08] text-water",
-} as const;
 
 export function Plant() {
   const [temp, setTemp] = useState(22);
@@ -91,53 +82,36 @@ export function Plant() {
       lede={
         <>
           A warm chilled water skid supplying <Term k="TCS" /> water at 30 °C. It rejects heat through dry coolers,
-          engages mechanical cooling only when it has to, and treats adiabatic assist as a third mode that is{" "}
-          <span className="text-ink">triggered by the state of the local water system</span>.
+          engages mechanical cooling only when it has to, and treats adiabatic assist as a third mode that is triggered
+          by the state of the local water system.
         </>
       }
     >
-      <div className="mt-14 rounded-3xl border border-line bg-card/60 p-4 sm:p-6 md:p-8">
+      <div className="mt-20 border-t border-rule pt-6">
         <div className="mb-4 flex items-center justify-between gap-4">
-          <div
-            role="radiogroup"
-            aria-label="Plant view"
-            className="inline-flex rounded-full border border-line bg-bg/60 p-1 text-sm"
-          >
+          <div role="radiogroup" aria-label="Plant view" className="pill-group">
             {(
               [
                 ["3d", "3D model"],
                 ["schematic", "Schematic"],
               ] as const
             ).map(([key, label]) => (
-              <button
-                key={key}
-                role="radio"
-                aria-checked={view === key}
-                onClick={() => setView(key)}
-                className={`relative rounded-full px-4 py-1.5 transition-colors ${view === key ? "text-bg" : "text-muted hover:text-ink"}`}
-              >
-                {view === key && (
-                  <motion.span
-                    layoutId="plant-view-pill"
-                    className="absolute inset-0 rounded-full bg-ink"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
-                  />
-                )}
-                <span className="relative">{label}</span>
+              <button key={key} type="button" role="radio" aria-checked={view === key} onClick={() => setView(key)}>
+                {label}
               </button>
             ))}
           </div>
-          {view === "3d" && <p className="hidden text-xs text-faint md:block">Drag to orbit</p>}
+          {view === "3d" && <p className="t-caption m-0 hidden text-faint md:block">Drag to orbit</p>}
         </div>
         {view === "3d" ? <Plant3D state={state} /> : <PlantSchematic state={state} />}
-        <div className="mt-8 grid gap-8 border-t border-line pt-8 lg:grid-cols-3">
-          {/* Controls */}
+
+        <div className="mt-10 grid gap-12 border-t border-line pt-10 lg:grid-cols-3 lg:gap-10">
           <div>
-            <label htmlFor={sliderId} className="flex items-baseline justify-between text-sm text-muted">
+            <label htmlFor={sliderId} className="t-label flex items-baseline justify-between gap-4">
               <span>
                 Ambient <Term k="dryBulb" />
               </span>
-              <span className="font-display text-4xl font-semibold text-ink tabular-nums">{temp.toFixed(1)} °C</span>
+              <span className="t-sub tabular-nums">{temp.toFixed(1)} °C</span>
             </label>
             <input
               id={sliderId}
@@ -150,123 +124,102 @@ export function Plant() {
                 stop();
                 setTemp(Number(e.target.value));
               }}
-              className="mt-3"
+              className="mt-4"
               aria-valuetext={`${temp} degrees Celsius`}
             />
-            <div className="relative mt-2 h-2 overflow-hidden rounded-full" aria-hidden>
+            <div className="relative mt-1 h-1.5" aria-hidden>
+              <div className="absolute inset-y-0 left-0 bg-sage" style={{ width: `${pct(FREE_COOLING_LIMIT_C)}%` }} />
               <div
-                className="absolute inset-y-0 left-0 bg-free/70"
-                style={{ width: `${pct(FREE_COOLING_LIMIT_C)}%` }}
-              />
-              <div
-                className="absolute inset-y-0 bg-water/60"
+                className="absolute inset-y-0 bg-amber"
                 style={{
                   left: `${pct(FREE_COOLING_LIMIT_C)}%`,
                   width: `${pct(ADIABATIC_LIMIT_C) - pct(FREE_COOLING_LIMIT_C)}%`,
                 }}
               />
-              <div className="absolute inset-y-0 right-0 bg-heat/70" style={{ left: `${pct(ADIABATIC_LIMIT_C)}%` }} />
+              <div className="absolute inset-y-0 right-0 bg-oxblood" style={{ left: `${pct(ADIABATIC_LIMIT_C)}%` }} />
             </div>
-            <div className="mt-2 flex justify-between text-[11px] text-faint">
+            <div className="t-caption mt-2 flex justify-between text-faint">
               <span>free cooling ≤ {FREE_COOLING_LIMIT_C} °C</span>
               <span>adiabatic band</span>
               <span>chiller &gt; {ADIABATIC_LIMIT_C} °C</span>
             </div>
           </div>
 
-          <div className="space-y-5">
+          <div className="flex flex-col items-start gap-6">
             <div>
-              <p className="mb-3 text-sm text-muted">Community water system</p>
-              <div role="radiogroup" aria-label="Community water system state" className="grid grid-cols-2 gap-2">
+              <p className="t-label mt-0 mb-3">Community water system</p>
+              <div role="radiogroup" aria-label="Community water system state" className="pill-group">
                 {(
                   [
                     ["normal", "Supply normal"],
-                    ["constrained", "Constrained / drought restrictions"],
+                    ["constrained", "Drought restrictions"],
                   ] as const
                 ).map(([key, label]) => (
                   <button
                     key={key}
+                    type="button"
                     role="radio"
                     aria-checked={water === key}
                     onClick={() => setWater(key)}
-                    className={`rounded-2xl border px-4 py-3 text-left text-sm leading-snug transition-colors ${
-                      water === key
-                        ? key === "normal"
-                          ? "border-water bg-water/10 text-ink"
-                          : "border-hot bg-hot/10 text-ink"
-                        : "border-line text-muted hover:border-faint"
-                    }`}
                   >
                     {label}
                   </button>
                 ))}
               </div>
             </div>
-
-            <button
-              type="button"
-              onClick={hour === null ? playDay : stop}
-              className="flex w-full items-center justify-center gap-3 rounded-full border border-line bg-bg/60 px-5 py-3 text-sm transition-colors hover:border-water hover:text-water"
-            >
-              <span aria-hidden>{hour === null ? "▶" : "■"}</span>
+            <button type="button" onClick={hour === null ? playDay : stop} className="pill">
               {hour === null ? "Play a hot Sydney summer day" : `Stop · ${clock}`}
             </button>
           </div>
 
-          <div aria-live="polite" className="rounded-2xl border border-line bg-bg/50 p-5">
+          <div aria-live="polite" className="border-t border-rule pt-4">
             <AnimatePresence mode="wait">
               <motion.div
                 key={state.headline}
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
               >
-                <p className="text-xs tracking-widest text-faint uppercase">Active mode</p>
-                <p data-testid="plant-mode" className="mt-1 font-display text-2xl font-semibold">
+                <p className="t-label m-0">Active mode</p>
+                <p data-testid="plant-mode" className="t-sub mt-2 mb-0">
                   {state.headline}
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{state.detail}</p>
+                <p className="mt-3 mb-0 leading-[1.5] text-muted">{state.detail}</p>
               </motion.div>
             </AnimatePresence>
-            <div className="mt-4 flex flex-wrap gap-2 text-xs">
-              <span className={`rounded-full border px-3 py-1 ${state.chiller ? toneClass.heat : toneClass.free}`}>
-                Chiller: {state.chiller ? "running" : "bypassed"}
+            <div className="mt-5 flex flex-wrap gap-2">
+              <span className="t-caption rounded-[75px] border border-rule px-3.5 py-1.5">
+                Chiller {state.chiller ? "running" : "bypassed"}
               </span>
               <span
-                className={`rounded-full border px-3 py-1 ${
-                  state.adiabatic
-                    ? toneClass.water
-                    : state.adiabaticLockedOut
-                      ? "border-hot/60 bg-hot/[0.08] text-hot"
-                      : "border-line text-muted"
+                className={`t-caption rounded-[75px] border px-3.5 py-1.5 ${
+                  state.adiabaticLockedOut ? "border-oxblood text-oxblood" : "border-rule"
                 }`}
               >
-                Water: {state.adiabatic ? "triggered" : state.adiabaticLockedOut ? "locked out" : "none"}
+                Water {state.adiabatic ? "triggered" : state.adiabaticLockedOut ? "locked out" : "not used"}
               </span>
             </div>
           </div>
         </div>
-        <p className="mt-6 text-xs text-faint">
+        <p className="t-caption mt-8 text-faint">
           Thresholds and the summer-day profile are illustrative, chosen to show the control idea. They are not results
           of the design study.
         </p>
       </div>
 
-      <div className="mt-12 grid gap-4 md:grid-cols-3">
+      <div className="mt-16 grid gap-10 md:grid-cols-3">
         {modes.map((m) => {
           const on = m.active(state);
           return (
-            <motion.div
+            <div
               key={m.n}
-              animate={{ opacity: on ? 1 : 0.55, y: on ? -4 : 0 }}
-              transition={{ duration: 0.4 }}
-              className={`rounded-3xl border p-6 transition-colors ${on ? toneClass[m.tone] : "border-line bg-card/40 text-muted"}`}
+              className={`pt-5 transition-colors duration-500 ${on ? "border-t-2 border-rule text-ink" : "border-t border-line text-faint"}`}
             >
-              <p className="text-xs tracking-widest uppercase">Mode {m.n}</p>
-              <h3 className="mt-2 font-display text-xl font-semibold text-ink">{m.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{m.body}</p>
-            </motion.div>
+              <p className="t-label m-0">Mode {m.n}</p>
+              <h3 className="mt-2 mb-0 text-lg font-normal">{m.title}</h3>
+              <p className="mt-3 mb-0 text-sm leading-[1.5]">{m.body}</p>
+            </div>
           );
         })}
       </div>
