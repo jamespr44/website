@@ -121,5 +121,19 @@ export function createLiquid(
   };
 }
 
-/** Seconds on a clock shared by every liquid surface, offset so the first frame is already well mixed. */
-export const liquidTime = () => (performance.now() + 20000) / 1000;
+// Seconds on a clock shared by every liquid surface. It starts 20 s in, so the first frame is already well mixed, and
+// runs at about a third of the speed when the reader asks for reduced motion (Windows "Animation effects" off, macOS
+// "Reduce motion"): a slow ambient drift rather than a frozen frame.
+const REDUCED_SPEED = 0.35;
+let reduceQuery: MediaQueryList | null | undefined;
+let clock = 20;
+let lastNow = -1;
+
+export function liquidTime() {
+  if (reduceQuery === undefined)
+    reduceQuery = typeof matchMedia === "function" ? matchMedia("(prefers-reduced-motion: reduce)") : null;
+  const now = performance.now() / 1000;
+  if (lastNow >= 0) clock += (now - lastNow) * (reduceQuery?.matches ? REDUCED_SPEED : 1);
+  lastNow = now;
+  return clock;
+}

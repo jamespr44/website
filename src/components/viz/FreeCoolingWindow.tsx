@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useMotionValueEvent } from "motion/react";
-import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { useScrub } from "@/lib/useScrub";
 import { seeded } from "@/lib/random";
 
@@ -32,10 +31,9 @@ const eras = [
 export function FreeCoolingWindow() {
   const ref = useRef<HTMLDivElement>(null);
   const progress = useScrub(ref);
-  const reduced = useReducedMotionSafe();
   const [step, setStep] = useState(0);
   useMotionValueEvent(progress, "change", (v) => setStep(toStep(v)));
-  // Pick up the initial value too (e.g. reduced motion pins progress at 1).
+  // Pick up the initial value too (e.g. a reload part-way down the page).
   useEffect(() => setStep(toStep(progress.get())), [progress]);
   const p = step / STEPS;
 
@@ -48,8 +46,8 @@ export function FreeCoolingWindow() {
   const ch = 9;
 
   return (
-    <div ref={ref} className={reduced ? "relative" : "relative h-[260vh]"}>
-      <div className={`flex flex-col justify-center py-16 ${reduced ? "" : "sticky top-0 h-svh"}`}>
+    <div ref={ref} className="relative h-[260vh]">
+      <div className="sticky top-0 flex h-svh flex-col justify-center py-16">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="t-label m-0">Hours when heat and humidity constrain free cooling</p>

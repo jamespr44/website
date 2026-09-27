@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { createLiquid, liquidTime } from "@/lib/liquid";
 
 /**
  * Full-bleed iridescent liquid. Renders at the display's full resolution and steps down only if frames run slow; pauses
- * off-screen; holds a still frame for reduced motion. Without WebGL it falls back to a drifting CSS gradient.
+ * off-screen; drifts slowly for reduced motion (see liquidTime). Without WebGL it falls back to a drifting CSS gradient.
  */
 export function IridescentBackdrop({ className = "" }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
-  const reduced = useReducedMotionSafe();
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
@@ -50,7 +48,7 @@ export function IridescentBackdrop({ className = "" }: { className?: string }) {
         }
       }
       liquid.render(liquidTime());
-      if (visible && !reduced) raf = requestAnimationFrame(loop);
+      if (visible) raf = requestAnimationFrame(loop);
     };
     const io = new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
@@ -70,7 +68,7 @@ export function IridescentBackdrop({ className = "" }: { className?: string }) {
       io.disconnect();
       ro.disconnect();
     };
-  }, [reduced]);
+  }, []);
 
   return (
     <div aria-hidden className={`liquid-backdrop absolute inset-0 ${failed ? "liquid-drift" : ""} ${className}`}>

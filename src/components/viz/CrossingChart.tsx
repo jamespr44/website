@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useTransform, type MotionValue } from "motion/react";
-import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { useScrub } from "@/lib/useScrub";
 
 // Geometry (viewBox 800 × 450). The floor rises and the ceiling falls; they cross at T_CROSS.
@@ -83,7 +82,6 @@ function Step({ progress, s }: { progress: MotionValue<number>; s: (typeof steps
 export function CrossingChart() {
   const ref = useRef<HTMLDivElement>(null);
   const p = useScrub(ref);
-  const reduced = useReducedMotionSafe();
 
   const ceilDraw = useTransform(p, [0.02, 0.24], [0, 1]);
   const floorDraw = useTransform(p, [0.28, 0.5], [0, 1]);
@@ -94,28 +92,13 @@ export function CrossingChart() {
   const requiredOpacity = useTransform(p, [0.86, 0.92], [0, 1]);
 
   return (
-    <div ref={ref} className={reduced ? "relative mt-16" : "relative h-[380vh]"}>
-      <div
-        className={`flex flex-col justify-center gap-8 py-10 md:grid md:grid-cols-[0.8fr_1.2fr] md:items-center md:gap-12 ${
-          reduced ? "" : "sticky top-0 h-svh"
-        }`}
-      >
-        {reduced ? (
-          <div className="order-2 space-y-8 md:order-1">
-            {steps.map((s) => (
-              <div key={s.kicker}>
-                <p className="t-label m-0">{s.kicker}</p>
-                <p className="mt-2 mb-0 text-lg leading-snug">{s.text}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="relative order-2 min-h-[12rem] md:order-1 md:min-h-[16rem]">
-            {steps.map((s) => (
-              <Step key={s.kicker} progress={p} s={s} />
-            ))}
-          </div>
-        )}
+    <div ref={ref} className="relative h-[380vh]">
+      <div className="sticky top-0 flex h-svh flex-col justify-center gap-8 py-10 md:grid md:grid-cols-[0.8fr_1.2fr] md:items-center md:gap-12">
+        <div className="relative order-2 min-h-[12rem] md:order-1 md:min-h-[16rem]">
+          {steps.map((s) => (
+            <Step key={s.kicker} progress={p} s={s} />
+          ))}
+        </div>
 
         <svg
           viewBox="0 0 800 450"

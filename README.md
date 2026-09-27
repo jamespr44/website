@@ -61,5 +61,9 @@ npm run format   # Prettier
 The plant thresholds, the free-cooling heatmap and the WUE profiles are **illustrative**, and the page labels them as
 such. Replace them with results from the design study as they become available.
 
-Every animation respects `prefers-reduced-motion`. With it enabled, scenes render their final state and smooth
-scrolling is disabled.
+With `prefers-reduced-motion` enabled (Windows "Animation effects" off, macOS "Reduce motion"), smooth scrolling, the
+hero parallax, reveals and counters are switched off. Two things deliberately stay live:
+
+- the scroll-pinned scenes (the crossing chart, the free-cooling years and the chiller tour), because the reader drives
+  them with their own scrolling;
+- the liquid, which drifts at about a third of its normal speed instead of freezing.

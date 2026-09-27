@@ -7,7 +7,6 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Term } from "@/components/ui/Term";
 import { SourceNote } from "@/components/ui/SourceNote";
 import { useScrub } from "@/lib/useScrub";
-import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { figures } from "@/content/chapters";
 import { ChillerCycle } from "@/components/viz/ChillerCycle";
 
@@ -73,7 +72,6 @@ const steps: { kicker: string; tone: string; title: string; body: React.ReactNod
 export function Chiller() {
   const ref = useRef<HTMLDivElement>(null);
   const progress = useScrub(ref);
-  const reduced = useReducedMotionSafe();
   const [step, setStep] = useState(0);
   useMotionValueEvent(progress, "change", (v) =>
     setStep(Math.min(steps.length - 1, Math.max(0, Math.floor(v * steps.length)))),
@@ -93,56 +91,36 @@ export function Chiller() {
         </>
       }
     >
-      <div ref={ref} className={reduced ? "mt-16" : "relative mt-16 h-[480vh]"}>
-        <div
-          className={
-            reduced
-              ? "grid gap-8 md:grid-cols-[0.8fr_1.2fr]"
-              : "sticky top-0 flex h-svh flex-col justify-center gap-4 py-6 md:grid md:grid-cols-[0.8fr_1.2fr] md:items-center md:gap-10"
-          }
-        >
+      <div ref={ref} className="relative mt-16 h-[480vh]">
+        <div className="sticky top-0 flex h-svh flex-col justify-center gap-4 py-6 md:grid md:grid-cols-[0.8fr_1.2fr] md:items-center md:gap-10">
           <div className="order-2 md:order-1">
-            {reduced ? (
-              <ol className="space-y-6">
-                {steps.map((st) => (
-                  <li key={st.kicker}>
-                    <p className="t-label">{st.kicker}</p>
-                    <p className="mt-1 text-xl">{st.title}</p>
-                    <p className="mt-2 text-muted">{st.body}</p>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <>
-                <div className="mb-5 flex gap-2" aria-hidden>
-                  {steps.map((st, i) => (
-                    <span
-                      key={st.kicker}
-                      className="h-px flex-1 transition-colors duration-500"
-                      style={{ background: i <= step ? "var(--ink)" : "var(--line)" }}
-                    />
-                  ))}
-                </div>
-                <div className="relative min-h-[13rem] md:min-h-[16rem]" aria-live="polite">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={s.kicker}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -16 }}
-                      transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
-                    >
-                      <p className="t-label">{s.kicker}</p>
-                      <p className="t-sub mt-3">{s.title}</p>
-                      <p className="mt-4 leading-relaxed text-muted md:text-lg">{s.body}</p>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </>
-            )}
+            <div className="mb-5 flex gap-2" aria-hidden>
+              {steps.map((st, i) => (
+                <span
+                  key={st.kicker}
+                  className="h-px flex-1 transition-colors duration-500"
+                  style={{ background: i <= step ? "var(--ink)" : "var(--line)" }}
+                />
+              ))}
+            </div>
+            <div className="relative min-h-[13rem] md:min-h-[16rem]" aria-live="polite">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={s.kicker}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
+                >
+                  <p className="t-label">{s.kicker}</p>
+                  <p className="t-sub mt-3">{s.title}</p>
+                  <p className="mt-4 leading-relaxed text-muted md:text-lg">{s.body}</p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
           <div className="order-1 w-full md:order-2">
-            <ChillerCycle step={reduced ? 0 : step} />
+            <ChillerCycle step={step} />
           </div>
         </div>
       </div>

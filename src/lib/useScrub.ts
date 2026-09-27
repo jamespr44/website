@@ -1,16 +1,13 @@
 "use client";
 
 import { type RefObject } from "react";
-import { useMotionValue, useScroll, type MotionValue } from "motion/react";
-import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
+import { useScroll, type MotionValue } from "motion/react";
 
 /**
- * Scroll progress (0 → 1) through a tall "pinned" container.
- * With reduced motion enabled, it returns 1 so scenes render their final state.
+ * Scroll progress (0 → 1) through a tall "pinned" container. It stays live under reduced motion: the reader drives it
+ * with their own scrolling, so nothing moves unless they do.
  */
 export function useScrub(target: RefObject<HTMLElement | null>): MotionValue<number> {
-  const reduced = useReducedMotionSafe();
   const { scrollYProgress } = useScroll({ target, offset: ["start start", "end end"] });
-  const done = useMotionValue(1);
-  return reduced ? done : scrollYProgress;
+  return scrollYProgress;
 }

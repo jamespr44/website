@@ -370,9 +370,12 @@ input[type="range"]::-moz-range-thumb {
   .pipe-flow,
   .fan-spin,
   .badge-spin,
-  .blade-spin,
-  .liquid-drift {
+  .blade-spin {
     animation: none;
+  }
+  /* The liquid fallback keeps drifting, slower, like the shader (see liquidTime). */
+  .liquid-drift {
+    animation-duration: 80s;
   }
   .drift-dot {
     animation: none;

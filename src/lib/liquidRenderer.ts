@@ -10,8 +10,6 @@ import { createLiquid, liquidTime, type Liquid } from "./liquid";
 export type LiquidSubscriber = {
   /** Copy the part of the shared liquid this subscriber needs. */
   draw: (source: HTMLCanvasElement, viewportW: number, viewportH: number) => void;
-  /** Draw once when shown instead of animating (reduced motion). */
-  still: boolean;
 };
 
 const WIDTH = 720;
@@ -39,12 +37,11 @@ function paint(subs: Iterable<LiquidSubscriber>) {
 }
 
 function loop() {
-  const animated = [...visible].filter((s) => !s.still);
-  if (animated.length === 0) {
+  if (visible.size === 0) {
     raf = 0;
     return;
   }
-  paint(animated);
+  paint(visible);
   raf = requestAnimationFrame(loop);
 }
 
@@ -59,6 +56,5 @@ export function setLiquidVisible(sub: LiquidSubscriber, isVisible: boolean) {
     return;
   }
   visible.add(sub);
-  if (sub.still) paint([sub]);
-  else if (!raf) raf = requestAnimationFrame(loop);
+  if (!raf) raf = requestAnimationFrame(loop);
 }

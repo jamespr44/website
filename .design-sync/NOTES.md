@@ -32,4 +32,6 @@
   A new alias would need adding there.
 - The Tailwind safelist in `build-lib.mjs` is hand-picked. Classes the design agent uses outside it, and outside the site and previews, will not exist.
 - `Section.id` and `Term.k` are unions taken from `src/content/chapters.ts` and `glossary.ts`, so the `.d.ts` changes when those change.
-- The `matchMedia` stub in two previews depends on motion reading `prefers-reduced-motion` through `window.matchMedia` at first use.
+- **Stale since the site change:** the `matchMedia` stub in the `CrossingChart` and `FreeCoolingWindow` previews no longer works. The site now keeps those scenes scroll-driven under reduced motion, so the stub doesn't produce a final state.
+  - The cards will render the scenes at scroll progress 0.
+  - Rework both previews before the next upload: for example, scroll the card to the scene's end on mount. Then re-grade them.

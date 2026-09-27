@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { liquidAvailable, setLiquidVisible, type LiquidSubscriber } from "@/lib/liquidRenderer";
 
 /**
@@ -24,7 +23,6 @@ export function LiquidText({
 }) {
   const wrap = useRef<HTMLSpanElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const reduced = useReducedMotionSafe();
   const [fallback, setFallback] = useState(false);
 
   useEffect(() => {
@@ -48,7 +46,6 @@ export function LiquidText({
     ro.observe(el);
 
     const sub: LiquidSubscriber = {
-      still: reduced,
       draw(source, vw, vh) {
         const r = el.getBoundingClientRect();
         const kx = source.width / vw;
@@ -70,7 +67,7 @@ export function LiquidText({
       ro.disconnect();
       setLiquidVisible(sub, false);
     };
-  }, [reduced, zoom]);
+  }, [zoom]);
 
   return (
     <span ref={wrap} className={`liquid-text ${block ? "liquid-block" : ""} ${fallback ? "liquid-fallback" : ""}`}>
