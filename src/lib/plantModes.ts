@@ -1,6 +1,6 @@
 /**
  * Illustrative control logic for the three-mode warm chilled water plant.
- * The thresholds are placeholders chosen to show the idea. They are not results from the design study.
+ * The thresholds are concept-stage assumptions, shared by the interactive plant and the estimate in lib/estimate.ts.
  */
 
 export type WaterState = "normal" | "constrained";

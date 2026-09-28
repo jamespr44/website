@@ -2,9 +2,10 @@
 
 import { motion } from "motion/react";
 
-type Mark = "yes" | "part" | "no";
+export type Mark = "yes" | "part" | "no";
+export type MatrixRow = { who: string; note: string; marks: Mark[]; self?: boolean };
 
-const criteria = [
+const defaultCriteria = [
   "Non-evaporative (dry) rejection",
   "30 °C TCS with elevated LCWT",
   "Warm, humid climate like Sydney",
@@ -12,7 +13,7 @@ const criteria = [
   "Driven by community water state",
 ];
 
-const rows: { who: string; note: string; marks: Mark[]; self?: boolean }[] = [
+const defaultRows: MatrixRow[] = [
   {
     who: "Karimi et al., 2022",
     note: "Chiller-less warm-water plant, hot-arid climate",
@@ -34,7 +35,7 @@ const rows: { who: string; note: string; marks: Mark[]; self?: boolean }[] = [
     marks: ["part", "no", "no", "no", "yes"],
   },
   {
-    who: "This work",
+    who: "This proposal",
     note: "Three-mode warm chilled water plant, Sydney, hourly",
     marks: ["yes", "yes", "yes", "yes", "yes"],
     self: true,
@@ -61,15 +62,26 @@ function Cell({ m, delay }: { m: Mark; delay: number }) {
   );
 }
 
-export function GapMatrix() {
+/** Rows scored against criteria with ✓ / ◐ / –. Defaults to prior work against what the design needs. */
+export function GapMatrix({
+  criteria = defaultCriteria,
+  rows = defaultRows,
+  rowHeader = "Work",
+  caption = "Prior work against the criteria the design study requires",
+}: {
+  criteria?: string[];
+  rows?: MatrixRow[];
+  rowHeader?: string;
+  caption?: string;
+}) {
   return (
     <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
       <table className="w-full min-w-[720px] border-collapse text-left">
-        <caption className="sr-only">Prior work against the criteria the design study requires</caption>
+        <caption className="sr-only">{caption}</caption>
         <thead>
           <tr className="border-b border-rule">
             <th scope="col" className="t-label w-64 pb-4 font-normal">
-              Work
+              {rowHeader}
             </th>
             {criteria.map((c) => (
               <th key={c} scope="col" className="t-label px-2 pb-4 text-center font-normal text-muted">
@@ -84,7 +96,7 @@ export function GapMatrix() {
               key={r.who}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.8 }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 1, delay: ri * 0.08, ease: [0.19, 1, 0.22, 1] }}
               className={r.self ? "panel" : "border-b border-line"}
             >

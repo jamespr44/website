@@ -1,25 +1,25 @@
 /** Chapter order drives the progress rail and section ids. */
 export const chapters = [
-  { id: "intro", label: "Introduction" },
-  { id: "pressure", label: "The pressure" },
-  { id: "evaporation", label: "Why towers drink" },
-  { id: "timing", label: "The metric hides the timing" },
-  { id: "layers", label: "Who switches, and on what" },
-  { id: "dry", label: "Dry rejection" },
-  { id: "adiabatic", label: "Adiabatic assist" },
-  { id: "hardware", label: "The hardware ceiling" },
-  { id: "crossing", label: "Where the lines cross" },
-  { id: "chiller", label: "The chiller" },
-  { id: "gap", label: "The gap" },
-  { id: "plant", label: "The proposed plant" },
-  { id: "now", label: "Why it matters now" },
+  { id: "intro", label: "Cover" },
+  { id: "summary", label: "Summary" },
+  { id: "brief", label: "Design brief" },
+  { id: "water", label: "Context: the water problem" },
+  { id: "constraints", label: "Context: floor and ceiling" },
+  { id: "options", label: "Options appraisal" },
+  { id: "system", label: "The proposed plant" },
+  { id: "rejection", label: "Heat rejection" },
+  { id: "chiller", label: "Mechanical cooling" },
+  { id: "controls", label: "Control strategy" },
+  { id: "performance", label: "Indicative performance" },
+  { id: "risk", label: "Compliance and risk" },
+  { id: "next", label: "Validation and next steps" },
 ] as const;
 
 export type ChapterId = (typeof chapters)[number]["id"];
 
 export const chapterIndex = (id: ChapterId) => chapters.findIndex((c) => c.id === id);
 
-/** Figures quoted in the review, kept in one place. */
+/** Figures cited from the literature, kept in one place. */
 export const figures = {
   towerLitresPerKWh: { low: 1.4, high: 1.5, mid: 1.45 },
   requestMLPerDay: { low: 5, high: 40 },

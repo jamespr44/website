@@ -1,6 +1,6 @@
 # Warm Water Cooling: conventions
 
-This is an editorial design system for the scrolling literature review "Optimised Warm Chilled Water Cooling with Trigger-Based Adiabatic Assist":
+This is an editorial design system for the scrolling concept design proposal "Cooling the cloud without draining the tap" (a warm chilled water plant with trigger-based adiabatic assist):
 
 - black pages;
 - white and grey Inter type, square corners and no shadows;

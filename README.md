@@ -1,11 +1,15 @@
-# Cooling the cloud without draining the tap
+# James Gianoutsos · portfolio
 
-An interactive, scroll-driven version of James Gianoutsos’s literature review, _Optimised Warm Chilled Water Cooling
-with Trigger-Based Adiabatic Assist: Minimising Data Centre Water Impact on Constrained Community Supply_.
+A portfolio site. The home page (`/`) introduces James and lists projects; each project has its own route.
 
-The page walks a reader through the argument in thirteen chapters. It starts with why cooling towers consume water,
-moves through the rising climate floor and falling hardware ceiling, tours a high-temperature chiller, covers the
-research gap, and finishes with an interactive three-mode plant.
+The first project, [`/projects/warm-water-cooling`](src/app/projects/warm-water-cooling/page.tsx), is _Cooling the
+cloud without draining the tap_: a concept design proposal for a 20 MW AI data centre in Western Sydney. It proposes a
+30 °C warm chilled water plant with dry coolers, a high-temperature chiller, and adiabatic assist gated on the state
+of the community's water supply. It runs in thirteen chapters: summary, brief, two context chapters drawn from the
+literature, options appraisal, the proposed plant, heat rejection, the chiller, control strategy, indicative
+performance, compliance and risk, and next steps.
+
+The literature review this proposal grew out of is kept on the `shelf/literature-review` branch.
 
 Built with Next.js 15 (App Router), Tailwind CSS v4, [Motion](https://motion.dev) for animation and
 [Lenis](https://lenis.darkroom.engineering) for smooth scrolling. The equipment is drawn as editorial schematics in
@@ -48,22 +52,28 @@ npm run format   # Prettier
 
 ## Editing content
 
-| What                                                | Where                                                   |
-| --------------------------------------------------- | ------------------------------------------------------- |
-| Chapter copy                                        | `src/components/sections/*.tsx`, one per chapter        |
-| Quoted figures (percentages, L/kWh, ML/day, …)      | `src/content/chapters.ts` → `figures`                   |
-| Chapter order and progress-rail labels              | `src/content/chapters.ts` → `chapters`                  |
-| Glossary tooltips                                   | `src/content/glossary.ts`                               |
-| Plant-mode thresholds for the interactive schematic | `src/lib/plantModes.ts`                                 |
-| Equipment schematics                                | `src/components/viz/*Schematic.tsx`, `ChillerCycle.tsx` |
-| Colours and fonts                                   | `src/app/globals.css`                                   |
+| What                                                  | Where                                                   |
+| ----------------------------------------------------- | ------------------------------------------------------- |
+| Home page name, role, bio, contact links and projects | `src/content/profile.ts`                                |
+| Proposal chapter copy                                 | `src/components/sections/*.tsx`, one per chapter        |
+| Chapter order and index labels                        | `src/content/chapters.ts` → `chapters`                  |
+| Figures cited from the literature                     | `src/content/chapters.ts` → `figures`                   |
+| Design brief and every modelling assumption           | `src/content/design.ts`                                 |
+| Indicative performance model                          | `src/lib/estimate.ts`                                   |
+| Plant-mode thresholds (interactive plant and model)   | `src/lib/plantModes.ts`                                 |
+| Glossary tooltips                                     | `src/content/glossary.ts`                               |
+| Equipment schematics                                  | `src/components/viz/*Schematic.tsx`, `ChillerCycle.tsx` |
+| Colours and fonts                                     | `src/app/globals.css`                                   |
 
-The plant thresholds, the free-cooling heatmap and the WUE profiles are **illustrative**, and the page labels them as
-such. Replace them with results from the design study as they become available.
+The performance figures (hours per mode, water, PUE, chiller hours, equipment counts) are **indicative, concept-stage
+estimates**, and the page labels them as such. `src/lib/estimate.ts` runs a seeded synthetic Western Sydney year,
+hour by hour, through the plant's control logic in two scenarios (supply normal all year, drought restrictions all
+year) and compares them with a cooling-tower baseline. Change an assumption in `src/content/design.ts` and every
+derived figure on the page follows. Replace the synthetic year with measured weather data when the design study runs.
 
 With `prefers-reduced-motion` enabled (Windows "Animation effects" off, macOS "Reduce motion"), smooth scrolling, the
 hero parallax, reveals and counters are switched off. Two things deliberately stay live:
 
-- the scroll-pinned scenes (the crossing chart, the free-cooling years and the chiller tour), because the reader drives
+- the scroll-pinned scenes (the crossing chart and the chiller tour), because the reader drives
   them with their own scrolling;
 - the liquid, which drifts at about a third of its normal speed instead of freezing.

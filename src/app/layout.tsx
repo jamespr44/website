@@ -4,16 +4,12 @@ import "./globals.css";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 
 const description =
-  "An interactive walk through a literature review on rejecting data centre heat without draining constrained community water supply, using a warm chilled water plant with trigger-based adiabatic assist.";
+  "James Gianoutsos: design work on data centre cooling that rejects heat to the air and uses water only when the community can spare it.";
 
 export const metadata: Metadata = {
-  title: "Cooling the cloud without draining the tap · James Gianoutsos",
+  title: { default: "James Gianoutsos", template: "%s · James Gianoutsos" },
   description,
-  openGraph: {
-    title: "Cooling the cloud without draining the tap",
-    description,
-    type: "article",
-  },
+  openGraph: { title: "James Gianoutsos", description, type: "website" },
 };
 
 export const viewport: Viewport = {

@@ -4,10 +4,17 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useReducedMotionSafe } from "@/lib/useReducedMotionSafe";
 import { IridescentBackdrop } from "@/components/ui/IridescentBackdrop";
-import { chapters } from "@/content/chapters";
+import { brief } from "@/content/design";
 
 const ease = [0.19, 1, 0.22, 1] as const;
 const lines = ["Cooling", "the cloud"];
+
+const facts = [
+  ["Facility", `${brief.itLoadMW} MW IT, AI`],
+  ["Location", brief.location],
+  ["TCS supply", `${brief.tcsSupplyC} °C`],
+  ["Stage", brief.stage],
+];
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -46,13 +53,26 @@ export function Hero() {
           transition={{ duration: 1.25, delay: 0.9, ease }}
           className="t-label m-0 max-w-[560px] leading-[1.6] text-white/85"
         >
-          Optimised warm chilled water cooling with trigger-based adiabatic assist: minimising data centre water impact
-          on constrained community supply
+          A concept design proposal: a warm chilled water plant that rejects heat to the air and uses water only when
+          the community can spare it
         </motion.p>
+        <motion.dl
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.25, delay: 1.1, ease }}
+          className="m-0 grid grid-cols-2 gap-x-10 gap-y-4 border-t border-white/40 pt-5 text-left sm:grid-cols-4"
+        >
+          {facts.map(([k, v]) => (
+            <div key={k}>
+              <dt className="t-caption text-white/70">{k}</dt>
+              <dd className="m-0 mt-1 text-[15px]">{v}</dd>
+            </div>
+          ))}
+        </motion.dl>
       </motion.div>
 
       <a
-        href="#pressure"
+        href="#summary"
         aria-label="Scroll down to begin"
         className="absolute bottom-6 left-4 block size-[104px] sm:bottom-9 sm:left-8 md:size-[112px]"
       >
@@ -69,7 +89,7 @@ export function Hero() {
         </svg>
       </a>
       <p className="t-caption absolute right-4 bottom-10 m-0 text-white/80 sm:right-8 sm:bottom-12">
-        {chapters.length} chapters · James Gianoutsos
+        {brief.stage} · {brief.year} · James Gianoutsos
       </p>
     </section>
   );

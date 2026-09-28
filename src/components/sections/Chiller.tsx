@@ -9,6 +9,9 @@ import { SourceNote } from "@/components/ui/SourceNote";
 import { useScrub } from "@/lib/useScrub";
 import { figures } from "@/content/chapters";
 import { ChillerCycle } from "@/components/viz/ChillerCycle";
+import { estimates } from "@/lib/estimate";
+
+const h = (n: number) => n.toLocaleString("en-AU");
 
 const steps: { kicker: string; tone: string; title: string; body: React.ReactNode }[] = [
   {
@@ -82,7 +85,7 @@ export function Chiller() {
     <Section
       id="chiller"
       tone="dark"
-      kicker="Mode 2 · Mechanical cooling"
+      kicker="Mechanical cooling · mode 2"
       title={<>When the air isn’t enough: the chiller.</>}
       lede={
         <>
@@ -146,8 +149,10 @@ export function Chiller() {
       <Reveal className="mt-12">
         <Prose>
           <p>
-            The chiller is the plant’s fallback, not its default. It runs only when free cooling can’t hold the
-            setpoint. How many hours that is, and what they cost, is the question the design study answers.
+            The chiller is the plant’s fallback, not its default. In the modelled year it runs{" "}
+            {h(estimates.normal.hours.chillerAdiabatic)} hours while water is available, helped by pre-cooled air, and{" "}
+            {h(estimates.drought.hours.chiller)} hours when drought restrictions lock the adiabatic mode out. Those
+            extra hours are the energy the plant spends to leave the community’s water alone.
           </p>
         </Prose>
       </Reveal>

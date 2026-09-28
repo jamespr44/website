@@ -10,7 +10,7 @@ export const HeroBackdrop = () => (
   <div className="relative h-[480px] overflow-hidden bg-bg">
     <IridescentBackdrop />
     <div className="relative flex h-full flex-col justify-end p-8">
-      <p className="t-label m-0 text-white">Literature review · 2026</p>
+      <p className="t-label m-0 text-white">Concept design proposal · 2026</p>
       <h1 className="t-sub mt-4 mb-0 max-w-[620px] text-white">
         Optimised warm chilled water cooling with trigger-based adiabatic assist
       </h1>
