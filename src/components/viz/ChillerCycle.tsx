@@ -67,7 +67,7 @@ export function ChillerCycle({ step }: { step: number }) {
     <svg
       viewBox="0 0 760 470"
       role="img"
-      aria-label="Refrigeration cycle of the chiller: the evaporator absorbs heat from the IT loop, the two-stage compressor raises the refrigerant's pressure, the condenser rejects the heat to condenser water at up to 55 °C, and the expansion valve drops the pressure again."
+      aria-label="Refrigeration cycle of the chiller: the evaporator absorbs heat from the IT loop, the two-stage compressor raises the refrigerant’s pressure, the condenser rejects the heat to condenser water at up to 55 °C, and the expansion valve drops the pressure again."
       className="h-auto w-full"
       fontFamily="inherit"
     >

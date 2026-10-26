@@ -41,7 +41,7 @@ export function Constraints() {
       <div className="mt-16 grid items-center gap-12 md:grid-cols-[1.1fr_0.9fr]">
         <Reveal className="border-t border-rule pt-7">
           <TdpTrend />
-          <SourceNote>Shape after Vertiv &amp; Open Compute Project (2026). Indicative, not to scale</SourceNote>
+          <SourceNote>Shape after Vertiv &amp; Open Compute Project (2026). Indicative, not to scale.</SourceNote>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="t-stat mt-6">

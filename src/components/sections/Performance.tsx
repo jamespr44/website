@@ -83,9 +83,9 @@ export function Performance() {
       <Reveal className="mt-20">
         <Prose>
           <p>
-            Free cooling carries winter, spring, autumn and every night. The warm hours cluster on summer afternoons,
-            exactly when a cooling tower would be drawing hardest. With water available, adiabatic assist absorbs most
-            of them; under restrictions the chiller takes them all, and the plant uses no water.
+            Free cooling carries all of winter and nearly every night. The warm hours cluster on afternoons from October
+            to April, exactly when a cooling tower would be drawing hardest. With water available, adiabatic assist
+            absorbs most of them; under restrictions the chiller takes them all, and the plant uses no water.
           </p>
         </Prose>
       </Reveal>

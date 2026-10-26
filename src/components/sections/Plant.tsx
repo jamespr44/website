@@ -213,7 +213,7 @@ export function Plant() {
           </div>
         </div>
         <p className="t-caption mt-8 text-faint">
-          Thresholds are concept-stage assumptions ({DRY_APPROACH_K} K dry-cooler approach, adiabatic band to{" "}
+          Thresholds are concept-stage assumptions ({DRY_APPROACH_K} K dry cooler approach, adiabatic band to{" "}
           {ADIABATIC_LIMIT_C} °C), the same ones the performance estimate uses. The summer-day profile is illustrative.
         </p>
       </div>

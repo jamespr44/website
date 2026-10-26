@@ -16,7 +16,7 @@ const stats = [
   },
   {
     value: <Counter value={Math.round(e.waterSavedShare * 100)} prefix="−" suffix="%" />,
-    text: `water against an evaporative cooling tower plant: about ${Math.round(e.normal.waterML)} ML a year instead of ${Math.round(e.tower.waterML)} ML.`,
+    text: `water use against an evaporative cooling tower plant: about ${Math.round(e.normal.waterML)} ML a year instead of ${Math.round(e.tower.waterML)} ML.`,
   },
   {
     value: <Counter value={0} suffix=" ML" />,
@@ -24,7 +24,7 @@ const stats = [
   },
   {
     value: <Counter value={e.pueRise * 100} decimals={1} prefix="+" suffix="%" />,
-    text: `facility energy for that saving: annualised PUE ${e.normal.pue.toFixed(2)} against ${e.tower.pue.toFixed(2)} for the tower plant.`,
+    text: `facility energy for that saving: annualised PUE ${e.normal.pue.toFixed(3)} against ${e.tower.pue.toFixed(3)} for the tower plant.`,
   },
 ];
 

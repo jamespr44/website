@@ -44,7 +44,7 @@ export function selectMode(dryBulbC: number, water: WaterState): PlantState {
           adiabaticLockedOut: false,
           headline: "Adiabatic assist",
           detail:
-            "Water is available, so pre-cooling the inlet air keeps the chiller off. It uses a little water, only while it's needed.",
+            "Water is available, so pre-cooling the inlet air keeps the chiller off. It uses a little water, only while it’s needed.",
         }
       : {
           dryCoolers: true,

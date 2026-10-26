@@ -31,7 +31,7 @@ export const projects: Project[] = [
     slug: "warm-water-cooling",
     title: "Cooling the cloud without draining the tap",
     summary:
-      "Concept design for a 20 MW AI data centre in Western Sydney: a 30 °C warm water plant with dry coolers, a high-temperature chiller, and adiabatic assist gated on the state of the community's water supply.",
+      "Concept design for a 20 MW AI data centre in Western Sydney: a 30 °C warm water plant with dry coolers, a high-temperature chiller, and adiabatic assist gated on the state of the community’s water supply.",
     kind: "Concept design proposal",
     year: 2026,
     tags: ["Data centres", "Heat rejection", "Water", "Controls"],

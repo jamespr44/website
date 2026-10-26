@@ -11,7 +11,7 @@ const stages = [
   {
     n: "01",
     title: "Hourly design study",
-    body: "Replace the synthetic year with measured Western Sydney weather, dry-bulb and wet-bulb, and today’s and projected climates. Compare against the chiller-less and cooling-tower baselines on energy, water and water-scarcity cost.",
+    body: "Replace the synthetic year with measured Western Sydney weather, dry-bulb and wet-bulb, and today’s and projected climates. Compare against the chiller-less and cooling tower baselines on energy, water and water-scarcity cost.",
   },
   {
     n: "02",

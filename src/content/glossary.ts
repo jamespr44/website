@@ -41,7 +41,7 @@ export const glossary = {
   },
   freeCooling: {
     term: "free cooling",
-    def: "Rejecting heat directly to ambient air without running a chiller's compressor.",
+    def: "Rejecting heat directly to ambient air without running a chiller’s compressor.",
   },
   adiabatic: {
     term: "adiabatic",

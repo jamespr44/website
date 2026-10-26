@@ -131,8 +131,8 @@ export function Controls() {
           </table>
         </div>
         <p className="t-caption mt-5 text-faint">
-          Setpoints, deadbands and timers are concept-stage and are tuned in the design study. <Term k="dryBulb" /> is
-          measured at the dry cooler inlets, shielded from their own exhaust.
+          Setpoints, deadbands and timers are concept-stage and are tuned in the design study.{" "}
+          <Term k="dryBulb">Dry-bulb</Term> is measured at the dry cooler inlets, shielded from their own exhaust.
         </p>
       </Reveal>
 

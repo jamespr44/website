@@ -13,7 +13,7 @@ const ml = (v: number) => `${Math.round(v)} ML/yr`;
 const options: MatrixRow[] = [
   {
     who: "A · Evaporative cooling towers",
-    note: `The baseline. ${ml(e.tower.waterML)}, heaviest in heatwaves. PUE ${e.tower.pue.toFixed(2)}.`,
+    note: `The baseline. ${ml(e.tower.waterML)}, heaviest in heatwaves. PUE ${e.tower.pue.toFixed(3)}.`,
     marks: ["no", "no", "yes", "yes", "no"],
   },
   {
@@ -28,12 +28,12 @@ const options: MatrixRow[] = [
   },
   {
     who: "D · Dry coolers + chiller, never wet",
-    note: `No water at all. Chiller runs ${e.drought.hours.chiller.toLocaleString("en-AU")} h/yr. PUE ${e.drought.pue.toFixed(2)}.`,
+    note: `No water at all. Chiller runs ${e.drought.hours.chiller.toLocaleString("en-AU")} h/yr. PUE ${e.drought.pue.toFixed(3)}.`,
     marks: ["yes", "yes", "part", "yes", "yes"],
   },
   {
     who: "E · Proposed: dry + chiller + gated adiabatic",
-    note: `${ml(e.normal.waterML)} in a normal year, none in a drought. PUE ${e.normal.pue.toFixed(2)}; becomes D under restrictions.`,
+    note: `${ml(e.normal.waterML)} in a normal year, none in a drought. PUE ${e.normal.pue.toFixed(3)}; becomes D under restrictions.`,
     marks: ["part", "yes", "yes", "yes", "yes"],
     self: true,
   },

@@ -133,7 +133,7 @@ export function Chiller() {
           <p className="t-label">Why 55 °C matters</p>
           <p className="mt-4 leading-relaxed text-muted">
             A conventional chiller rejects heat at temperatures that need a cooling tower. Leaving the condenser at up
-            to 55 °C keeps the rejection side dry, so even Mode 2 uses no evaporative water.
+            to 55 °C keeps the rejection side dry, so even mode 2 uses no evaporative water.
           </p>
           <SourceNote>Carrier (n.d.), AquaEdge 19MV4</SourceNote>
         </Reveal>
